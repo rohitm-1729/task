@@ -1,7 +1,7 @@
 #include "RAW2PGM.h"
 
-#define RAWIMG "RAW_INPUT/input.raw12"
-#define PGMIMG "PGM_OUT/"
+#define RAWIMG "../RAW_INPUT/input.raw12"
+#define PGMIMG "../PGM_OUT/"
 #define WIDTH 4096
 #define HEIGHT 3072
 

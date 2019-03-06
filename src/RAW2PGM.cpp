@@ -10,8 +10,8 @@ RAW2PGM::RAW2PGM(const char* rawfilename, int width, int height)
     PixelCount= width * height;
     Byte_Count= width * height * 3 / 2;
     
-    this->LoadBuff=new uint8_t[Byte_Count];
-    this->Buff12Bit=new uint16_t[PixelCount];
+    LoadBuff=new uint8_t[Byte_Count];
+    Buff12Bit=new uint16_t[PixelCount];
     
     input.open(rawfilename,std::ios::binary);
     
@@ -29,30 +29,30 @@ RAW2PGM::RAW2PGM(const char* rawfilename, int width, int height)
 
         if(j%2==0)
         {
-            this->Buff12Bit[j]=this->LoadBuff[i];
-            this->Buff12Bit[j]=this->Buff12Bit[j]<<4;
-            this->Buff12Bit[j]=((this->Buff12Bit[j] | (this->LoadBuff[i+1]>>4)&0x0F));
+            Buff12Bit[j]=LoadBuff[i];
+            Buff12Bit[j]=Buff12Bit[j]<<4;
+            Buff12Bit[j]=((Buff12Bit[j] | (LoadBuff[i+1]>>4)&0x0F));
             j++;
         }
         else
         {
-            this->Buff12Bit[j]=(this->LoadBuff[i] & 0x0F);
-            this->Buff12Bit[j]=this->Buff12Bit[j]<<8;
-            this->Buff12Bit[j]=this->Buff12Bit[j]| this->LoadBuff[i+1];
+            Buff12Bit[j]=(LoadBuff[i] & 0x0F);
+            Buff12Bit[j]=Buff12Bit[j]<<8;
+            Buff12Bit[j]=Buff12Bit[j]| LoadBuff[i+1];
             i++;
             j++;
         }
        
     }
     int choice=1;//change this for user input
-    this->Buff8Bit = new uint8_t[PixelCount];
+    Buff8Bit = new uint8_t[PixelCount];
     switch (choice)
     {
         case 1:
             //this case is for converting to 8 bits by clipping the last 4 bits
             for(unsigned int index = 0; index<PixelCount; index++)
             {
-                this->Buff8Bit[index]=(this->Buff12Bit[index])>>4;
+                Buff8Bit[index]=(Buff12Bit[index])>>4;
             }
          
             break;
@@ -70,24 +70,24 @@ RAW2PGM::RAW2PGM(const char* rawfilename, int width, int height)
 }
 int RAW2PGM::SeperateChannels()
 {
-    this->Red = new uint8_t[PixelCount/4];
-    this->Gr1 = new uint8_t[PixelCount/4];
-    this->Gr2 = new uint8_t[PixelCount/4];
-    this->Blu = new uint8_t[PixelCount/4]; 
+    Red = new uint8_t[PixelCount/4];
+    Gr1 = new uint8_t[PixelCount/4];
+    Gr2 = new uint8_t[PixelCount/4];
+    Blu = new uint8_t[PixelCount/4]; 
     // to seperate 4 colour channels
     unsigned int rgcount=0,gbcount=0;
     for(unsigned int  counter = 0; counter <PixelCount-1; counter+=2)
     {
         if((counter/width)%2==0) // case for RGRGRGRGRG....
         {
-            this->Red[rgcount]=Buff8Bit[counter];
-            this->Gr1[rgcount]=Buff8Bit[counter+1];
+            Red[rgcount]=Buff8Bit[counter];
+            Gr1[rgcount]=Buff8Bit[counter+1];
             rgcount++;
         }
         else //case for GBGBGBGBGB....
         {
-            this->Gr2[gbcount]=Buff8Bit[counter];
-            this->Blu[gbcount]=Buff8Bit[counter+1];
+            Gr2[gbcount]=Buff8Bit[counter];
+            Blu[gbcount]=Buff8Bit[counter+1];
             gbcount++;
         }
         
@@ -114,10 +114,10 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
         
         for(unsigned int write_index = 0; write_index < PixelCount/4; write_index++)
         {
-           pgmfileRed<<(unsigned)(this->Red[write_index])<<" ";
-           pgmfileGr1<<(unsigned)(this->Gr1[write_index])<<" ";
-           pgmfileGr2<<(unsigned)(this->Gr2[write_index])<<" ";
-           pgmfileBlu<<(unsigned)(this->Blu[write_index])<<" ";
+           pgmfileRed<<(unsigned)(Red[write_index])<<" ";
+           pgmfileGr1<<(unsigned)(Gr1[write_index])<<" ";
+           pgmfileGr2<<(unsigned)(Gr2[write_index])<<" ";
+           pgmfileBlu<<(unsigned)(Blu[write_index])<<" ";
         }
         pgmfileRed.close();
         pgmfileGr1.close();
