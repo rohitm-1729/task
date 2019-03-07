@@ -13,6 +13,8 @@ int main()
     RAW2PGM Image(RAWIMG,WIDTH,HEIGHT);
     cout << "Seperating Channels:...." << endl;
     Image.SeperateChannels();
+    cout<< "Creating colored image by debayering..." << endl;
+    Image.DebayerImage();
     cout<<"Writing PGM images in : "<< PGMIMG <<endl;
     Image.WriteChannelsPGM(PGMIMG);
     return 0;

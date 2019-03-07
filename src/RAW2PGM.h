@@ -13,6 +13,7 @@
 #define PGM_FILENAME_GR1 "Green1.pgm"
 #define PGM_FILENAME_GR2 "Green2.pgm"
 #define PGM_FILENAME_BLU "Blue.pgm"
+#define PPM_FILENAME_COLOR "Color.ppm"
 
 using namespace std;
 
@@ -25,17 +26,16 @@ private:
     uint8_t *Buff8Bit;
     uint16_t *Buff12Bit;
     unsigned int width,height,Byte_Count,PixelCount;
-    uint8_t *Red;
-    uint8_t *Gr1;
-    uint8_t *Gr2;
-    uint8_t *Blu;
+    uint16_t *Red, *Gr1, *Gr2, *Blu, *Colored12Bit;
+    uint8_t *Red8, *Gr18, *Gr28, *Blu8, *Colored8Bit;
     std::ofstream pgmfileRed,pgmfileGr1;
-    std::ofstream pgmfileGr2,pgmfileBlu;
+    std::ofstream pgmfileGr2,pgmfileBlu, ppmfileColor;
     
 public:
     RAW2PGM(const char* rawfile,int width ,int height);
-    //~RAW2PGM();
+    ~RAW2PGM();
     int SeperateChannels();
+    int DebayerImage();
     int WriteChannelsPGM(const string directory);
 };
 
