@@ -14,8 +14,7 @@ RAW2PGM::RAW2PGM(const char* rawfilename, int width, int height)
     
     input.open(rawfilename,std::ios::binary);
     
-    if(input.fail())
-    {
+    if(input.fail()){
         cout<<"Failed to open file....Exiting program"<<endl;
         exit(1);
     }
@@ -23,18 +22,14 @@ RAW2PGM::RAW2PGM(const char* rawfilename, int width, int height)
     //extract 12 bit per pixel and store
     unsigned int j=0;
     
-    for(unsigned int i = 0; i < Byte_Count; i++)
-    {
+    for(unsigned int i = 0; i < Byte_Count; i++){
 
-        if(j%2==0)
-        {
+        if(j%2==0){
             Buff12Bit[j]=LoadBuff[i];
             Buff12Bit[j]=Buff12Bit[j]<<4;
             Buff12Bit[j]=((Buff12Bit[j] | ((LoadBuff[i+1]>>4)&0x0F)));
             j++;
-        }
-        else
-        {
+        }else{
             Buff12Bit[j]=(LoadBuff[i] & 0x0F);
             Buff12Bit[j]=Buff12Bit[j]<<8;
             Buff12Bit[j]=Buff12Bit[j]| LoadBuff[i+1];
@@ -55,16 +50,12 @@ int RAW2PGM::SeperateChannels()
     // to seperate 4 colour channels
     unsigned int rgcount=0,gbcount=0;
 
-    for(unsigned int  counter = 0; counter < PixelCount-1; counter += 2)
-    {
-        if((counter/width)%2==0) // case for RGRGRGRGRG....
-        {
+    for(unsigned int  counter = 0; counter < PixelCount-1; counter += 2){
+        if((counter/width)%2==0){  // case for RGRGRGRGRG....
             Red[rgcount]=Buff12Bit[counter];
             Gr1[rgcount]=Buff12Bit[counter+1];
             rgcount++;
-        }
-        else //case for GBGBGBGBGB....
-        {
+        }else{ //case for GBGBGBGBGB....
             Gr2[gbcount]=Buff12Bit[counter];
             Blu[gbcount]=Buff12Bit[counter+1];
             gbcount++;
@@ -77,23 +68,16 @@ int RAW2PGM::SeperateChannels()
 int RAW2PGM::DebayerImage()
 {
     Colored12Bit = new uint16_t[PixelCount*3];
-    for(unsigned int index = 0;  index < PixelCount; index+=2)
-    {
-        if ((index/width)%2==0)
-        {
-            //pixel at R
-            for(unsigned int j=0; j < 6; j+=3)
-            {
+    for(unsigned int index = 0;  index < PixelCount; index+=2){
+        if ((index/width)%2==0){
+            //pixel at R and pixel at G
+            for(unsigned int j=0; j < 6; j+=3){
             Colored12Bit[index*3 + j] = Buff12Bit[index];
             Colored12Bit[index*3 + j+1] = (Buff12Bit[index + 1] + Buff12Bit[index + width])/2;
             Colored12Bit[index*3 + j+2] = Buff12Bit[index + width + 1];
-            
             }
-        }
-        else
-        {
-            for(unsigned int k = 0; k < 6; k+=3)
-            {
+        }else{
+            for(unsigned int k = 0; k < 6; k+=3){
                 Colored12Bit[index*3 + k] = Buff12Bit[index - width];
                 Colored12Bit[index*3 + k+1] = (Buff12Bit[index]+Buff12Bit[(index - width) + 1])/2;
                 Colored12Bit[index*3 + k+2] = Buff12Bit[index + 1];
@@ -114,27 +98,20 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
     Blu8 = new uint8_t[PixelCount];
     Colored8Bit = new uint8_t[PixelCount*3];
     unsigned int choice=1;//change this for user input
-    //Buff8Bit = new uint8_t[PixelCount];
-    switch (choice)
-    {
+    switch (choice){
         case 1:
             //this case is for converting to 8 bits by clipping the last 4 bits
             
-            for(unsigned int index = 0; index<PixelCount*3; index++)
-            {
+            for(unsigned int index = 0; index<PixelCount*3; index++){
                 
-                if(index<PixelCount/4)
-                {
+                if(index<PixelCount/4){
                     Red8[index] = (Red[index] >> 4);
                     Gr18[index] = (Gr1[index] >> 4);
                     Gr28[index] = (Gr2[index] >> 4);
                     Blu8[index] = (Blu[index] >> 4);
-                }//  TO DO
-                //Add conversion for debayered image too
-                
+                }
+                // conversion for debayered image 
                 Colored8Bit[index] = (Colored12Bit[index]>>4);
-                
-                
             }
             break;
         case 2:
@@ -147,8 +124,7 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
         default:
             break;
     }
-    try
-    {
+    try{
         pgmfileRed.open((directory + PGM_FILENAME_RED).c_str(),std::ios::binary);
         pgmfileGr1.open((directory + PGM_FILENAME_GR1).c_str(),std::ios::binary);
         pgmfileGr2.open((directory + PGM_FILENAME_GR2).c_str(),std::ios::binary);
@@ -168,10 +144,8 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
         pgmfileBlu<< "P2\n" << width/2 << " " << height/2 << "\n255\n";
         ppmfileColor<< "P3\n" << width << " " << height   << "\n255\n";
 
-        for(unsigned int write_index = 0; write_index < PixelCount*3; write_index++)
-        {
-           if (write_index < PixelCount/4)
-           {
+        for(unsigned int write_index = 0; write_index < PixelCount*3; write_index++){
+           if (write_index < PixelCount/4){
                pgmfileRed<<(unsigned)(Red8[write_index])<<" ";
                pgmfileGr1<<(unsigned)(Gr18[write_index])<<" ";
                pgmfileGr2<<(unsigned)(Gr28[write_index])<<" ";
@@ -185,8 +159,7 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
         pgmfileBlu.close();
         ppmfileColor.close();
     }
-    catch(const char *err)
-    {
+    catch(const char *err){
        fprintf(stderr, "%s\n", err); 
     }
     return 0;
