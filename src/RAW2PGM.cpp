@@ -1,13 +1,13 @@
 #include "RAW2PGM.h"
 using namespace std;
 
-RAW2PGM::RAW2PGM(const char* rawfilename, int width, int height)
+RAW2PGM::RAW2PGM(const char* rawfilename, int _width, int _height)
 {
-    this->width = width;
-    this->height = height;
+    this->_width = _width;
+    this->_height = _height;
     // all required counters
-    PixelCount= width * height;
-    Byte_Count= width * height * 3 / 2;
+    PixelCount= _width * _height;
+    Byte_Count= _width * _height * 3 / 2;
     
     LoadBuff = new uint8_t[Byte_Count];
     Buff12Bit= new uint16_t[PixelCount];
@@ -18,7 +18,7 @@ RAW2PGM::RAW2PGM(const char* rawfilename, int width, int height)
         cout<<"Failed to open file....Exiting program"<<endl;
         exit(1);
     }
-    input.read(reinterpret_cast< char*>(this->LoadBuff),Byte_Count);
+    input.read(reinterpret_cast< char*>(LoadBuff),Byte_Count);
     //extract 12 bit per pixel and store
     unsigned int j=0;
     
@@ -51,7 +51,7 @@ int RAW2PGM::SeperateChannels()
     unsigned int rgcount=0,gbcount=0;
 
     for(unsigned int  counter = 0; counter < PixelCount-1; counter += 2){
-        if((counter/width)%2==0){  // case for RGRGRGRGRG....
+        if((counter/_width)%2==0){  // case for RGRGRGRGRG....
             Red[rgcount]=Buff12Bit[counter];
             Gr1[rgcount]=Buff12Bit[counter+1];
             rgcount++;
@@ -69,17 +69,17 @@ int RAW2PGM::DebayerImage()
 {
     Colored12Bit = new uint16_t[PixelCount*3];
     for(unsigned int index = 0;  index < PixelCount; index+=2){
-        if ((index/width)%2==0){
+        if ((index/_width)%2==0){
             //pixel at R and pixel at G
             for(unsigned int j=0; j < 6; j+=3){
             Colored12Bit[index*3 + j] = Buff12Bit[index];
-            Colored12Bit[index*3 + j+1] = (Buff12Bit[index + 1] + Buff12Bit[index + width])/2;
-            Colored12Bit[index*3 + j+2] = Buff12Bit[index + width + 1];
+            Colored12Bit[index*3 + j+1] = (Buff12Bit[index + 1] + Buff12Bit[index + _width])/2;
+            Colored12Bit[index*3 + j+2] = Buff12Bit[index + _width + 1];
             }
         }else{
             for(unsigned int k = 0; k < 6; k+=3){
-                Colored12Bit[index*3 + k] = Buff12Bit[index - width];
-                Colored12Bit[index*3 + k+1] = (Buff12Bit[index]+Buff12Bit[(index - width) + 1])/2;
+                Colored12Bit[index*3 + k] = Buff12Bit[index - _width];
+                Colored12Bit[index*3 + k+1] = (Buff12Bit[index]+Buff12Bit[(index - _width) + 1])/2;
                 Colored12Bit[index*3 + k+2] = Buff12Bit[index + 1];
             }
             
@@ -138,11 +138,11 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
         if (pgmfileBlu.fail()) throw("Can't open pgmblu file");
         if (ppmfileColor.fail()) throw("Can't open ppmcolor file");
         
-        pgmfileRed<< "P2\n" << width/2 << " " << height/2 << "\n255\n";
-        pgmfileGr1<< "P2\n" << width/2 << " " << height/2 << "\n255\n"; 
-        pgmfileGr2<< "P2\n" << width/2 << " " << height/2 << "\n255\n";
-        pgmfileBlu<< "P2\n" << width/2 << " " << height/2 << "\n255\n";
-        ppmfileColor<< "P3\n" << width << " " << height   << "\n255\n";
+        pgmfileRed<< "P2\n" << _width/2 << " " << _height/2 << "\n255\n";
+        pgmfileGr1<< "P2\n" << _width/2 << " " << _height/2 << "\n255\n"; 
+        pgmfileGr2<< "P2\n" << _width/2 << " " << _height/2 << "\n255\n";
+        pgmfileBlu<< "P2\n" << _width/2 << " " << _height/2 << "\n255\n";
+        ppmfileColor<< "P3\n" << _width << " " << _height   << "\n255\n";
 
         for(unsigned int write_index = 0; write_index < PixelCount*3; write_index++){
            if (write_index < PixelCount/4){
@@ -169,4 +169,5 @@ RAW2PGM::~RAW2PGM()
     delete[] LoadBuff;
     delete[] Buff12Bit;
 }
+
     

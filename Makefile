@@ -6,3 +6,4 @@ bin/convert.out: src/main.cpp src/RAW2PGM.cpp src/RAW2PGM.h
 clean: 
 	rm bin/convert.out
 	rm -rf PGM_OUT
+	rm bin
