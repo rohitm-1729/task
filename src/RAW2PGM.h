@@ -8,7 +8,7 @@
 #include <string.h>
 
 
-#define TILE_SIZE 5
+
 #define PGM_FILENAME_RED "Red1.pgm"
 #define PGM_FILENAME_GR1 "Green1.pgm"
 #define PGM_FILENAME_GR2 "Green2.pgm"
@@ -35,6 +35,7 @@ public:
     RAW2PGM(const char* rawfile,int width ,int _height);
     ~RAW2PGM();
     int SeperateChannels();
+    int ExtractTileValues(int TILE_SIZE);
     int DebayerImage();
     int WriteChannelsPGM(const string directory);
 };

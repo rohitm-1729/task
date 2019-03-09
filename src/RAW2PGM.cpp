@@ -97,6 +97,7 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
     Gr28 = new uint8_t[PixelCount];
     Blu8 = new uint8_t[PixelCount];
     Colored8Bit = new uint8_t[PixelCount*3];
+    Buff8Bit = new uint8_t[PixelCount];
     unsigned int choice=1;//change this for user input
     switch (choice){
         case 1:
@@ -110,6 +111,11 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
                     Gr28[index] = (Gr2[index] >> 4);
                     Blu8[index] = (Blu[index] >> 4);
                 }
+                //to convert 12Bit buffer to 8Bit for Square tile values
+                if (index < PixelCount){
+                    Buff8Bit[index] = (Buff12Bit[index]>>4);
+                }
+                
                 // conversion for debayered image 
                 Colored8Bit[index] = (Colored12Bit[index]>>4);
             }
@@ -161,6 +167,18 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
     }
     catch(const char *err){
        fprintf(stderr, "%s\n", err); 
+    }
+    return 0;
+}
+int RAW2PGM::ExtractTileValues(int TileSize)
+{
+    for(unsigned int tile = 0; tile< _width*TileSize; tile+=_width)
+    {
+        for(unsigned int row = tile; row < tile+5; row++)
+        {
+            cout<<(unsigned) Buff8Bit[row]<<" ";
+        }
+        cout<<endl;
     }
     return 0;
 }
