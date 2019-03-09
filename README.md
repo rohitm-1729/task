@@ -1,2 +1,2 @@
 # RAW12
-Apertus C++ task
+A C++ utility to convert a RAW12 file to PPM with seperating individual channels and debayering for a Color Image.
