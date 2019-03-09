@@ -21,15 +21,18 @@ using namespace std;
 class RAW2PGM
 {
 private:
-    std::ifstream input;
+    ifstream input;
     uint8_t *LoadBuff;
     uint8_t *Buff8Bit;
     uint16_t *Buff12Bit;
     unsigned int _width,_height,Byte_Count,PixelCount;
-    uint16_t *Red, *Gr1, *Gr2, *Blu, *Colored12Bit;
-    uint8_t *Red8, *Gr18, *Gr28, *Blu8, *Colored8Bit;
-    std::ofstream pgmfileRed,pgmfileGr1;
-    std::ofstream pgmfileGr2,pgmfileBlu, ppmfileColor;
+    uint16_t *Red, *Gr1, *Gr2, *Blu;
+    uint8_t *Red8, *Gr18, *Gr28, *Blu8;
+    uint16_t *Colored12Bit;
+    uint8_t  *Colored8Bit;
+    ofstream pgmfileRed,pgmfileGr1;
+    ofstream pgmfileGr2,pgmfileBlu;
+    ofstream ppmfileColor;
     
 public:
     RAW2PGM(const char* rawfile,int width ,int _height);
