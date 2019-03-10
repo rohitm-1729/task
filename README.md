@@ -2,8 +2,7 @@
 A C++ utility to convert a RAW12 file to PPM with seperating individual channels and debayering for a Color Image.
 
 
-To install the application:  
-  
+To install the application:  - - - -
     -Clone the repository  - - - -
     -Enter the build directory  - - - -
     ```
