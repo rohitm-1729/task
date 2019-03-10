@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/convert.dir/src/DebayerNearest.cpp.o CMakeFiles/convert.dir/src/ExtractTileValues.cpp.o CMakeFiles/convert.dir/src/RAW2PGM.cpp.o CMakeFiles/convert.dir/src/SepChannels.cpp.o CMakeFiles/convert.dir/src/WriteChannels.cpp.o CMakeFiles/convert.dir/src/main.cpp.o  -o convert 

@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../header/RAW2PGM.h
+cstdlib
+-
+iostream
+-
+fstream
+-
+stdint.h
+-
+string.h
+-
+
+/home/rohit/Programs/Projects/RAW12/src/DebayerNearest.cpp
+RAW2PGM.h
+/home/rohit/Programs/Projects/RAW12/src/RAW2PGM.h
+
+/home/rohit/Programs/Projects/RAW12/src/ExtractTileValues.cpp
+RAW2PGM.h
+/home/rohit/Programs/Projects/RAW12/src/RAW2PGM.h
+
+/home/rohit/Programs/Projects/RAW12/src/RAW2PGM.cpp
+RAW2PGM.h
+/home/rohit/Programs/Projects/RAW12/src/RAW2PGM.h
+
+/home/rohit/Programs/Projects/RAW12/src/SepChannels.cpp
+RAW2PGM.h
+/home/rohit/Programs/Projects/RAW12/src/RAW2PGM.h
+
+/home/rohit/Programs/Projects/RAW12/src/WriteChannels.cpp
+RAW2PGM.h
+/home/rohit/Programs/Projects/RAW12/src/RAW2PGM.h
+
+/home/rohit/Programs/Projects/RAW12/src/main.cpp
+RAW2PGM.h
+/home/rohit/Programs/Projects/RAW12/src/RAW2PGM.h
+
