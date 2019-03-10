@@ -7,8 +7,10 @@ int RAW2PGM::WriteChannelsPGM(const string directory)
     Gr18 = new uint8_t[PixelCount];
     Gr28 = new uint8_t[PixelCount];
     Blu8 = new uint8_t[PixelCount];
+
     Colored8Bit = new uint8_t[PixelCount*3];
     Buff8Bit = new uint8_t[PixelCount];
+    
     unsigned int choice=1;//change this for user input
     switch (choice){
         case 1:
