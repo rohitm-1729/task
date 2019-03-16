@@ -3,11 +3,27 @@
 #include "RAW2PGM.h"
 using namespace std;
 
-int RAW2PGM::DebayerNearest()
+Debayer::Debayer()
 {
-    Colored12Bit = new uint16_t[PixelCount*3];
 
-    unsigned int indexrg=0, indexgb=0, clrindex = 0;
+}
+Debayer::Debayer(SepChannels &Sepimage)
+{
+    //get all values to the object of this class
+    this->_width=Sepimage._width;
+    this->_height=Sepimage._height;
+    this->PixelCount=Sepimage.PixelCount;
+    
+    this->Red=static_cast<uint16_t*>(Sepimage.RedChannel());
+    this->Gr1=static_cast<uint16_t*>(Sepimage.Gr1Channel());
+    this->Gr2=static_cast<uint16_t*>(Sepimage.Gr2Channel());
+    this->Blu=static_cast<uint16_t*>(Sepimage.BluChannel());
+
+    Colored12Bit = new uint16_t[PixelCount*3];
+}
+int Debayer::NearestNeighbour()
+{
+    unsigned int indexrg=0,indexgb=0,clrindex = 0;
     
     for(unsigned int index = 0;  index < PixelCount/2; index++,clrindex+=2){
         if ((index/_width)%2==0){
@@ -27,7 +43,6 @@ int RAW2PGM::DebayerNearest()
             }
             indexgb++;
         }
-    
     }
-    return 0;  
+    return 0;
 }

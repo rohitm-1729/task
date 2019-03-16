@@ -8,15 +8,15 @@ using namespace std;
 
 int main()
 {
-    cout << "Taking input from: "<< RAWIMG << endl;
-    RAW2PGM Image(WIDTH,HEIGHT);
-    cout << "Seperating Channels:...." << endl;
-    Image.SeperateChannels();
-    cout<< "Creating colored image by debayering..." << endl;
-    Image.DebayerNearest();
-    cout<<"Writing PGM images in : "<< PGMIMG <<endl;
-    Image.WriteChannelsPGM(PGMIMG);
-    cout<< "Extracting a " << TILE_SIZE <<"x" <<TILE_SIZE << " square tile: "<<endl;
-    Image.ExtractTileValues(TILE_SIZE);
+    PreProcessImage Image(WIDTH,HEIGHT);
+    SepChannels Channels(Image);
+    Channels.Seperate(Image);
+    Debayer Debayered(Channels);
+    Debayered.NearestNeighbour();
+    To8Bit EightBitImage(Debayered,Image);
+    EightBitImage.ConvertTo8();
+    EightBitImage.PrintIntensityVals();
+    WriteImage WriteFile(EightBitImage);
+    WriteFile.WriteBoth();
     return 0;
 }

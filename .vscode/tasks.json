@@ -6,7 +6,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "g++ -g -o bin/convert.out src/main.cpp src/SepChannels.cpp src/RAW2PGM.cpp src/DebayerImage.cpp src/DebayerCorner.cpp src/RAW2PGM.h -pedantic -Wall",
+            "command": "",
             "group": {
                 "kind":"build",
                 "isDefault": true
