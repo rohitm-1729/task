@@ -6,6 +6,7 @@ To install the application:
 ```
 cd build
 cmake ..
+make
 ./convert
 ```
 Output files are generated in PGM_OUT folder  
