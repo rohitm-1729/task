@@ -10,8 +10,9 @@ Debayer::Debayer()
 Debayer::Debayer(PreProcessImage &Image)
 {
     //get all values to the object of this class
+    
     this->_width=Image.get_width();
-    //this->_height=Image._height;
+
     this->_pixelCount=Image.get_pixelCount();
     
     this->red=static_cast<uint16_t*>(Image.RedChannel());
@@ -28,19 +29,23 @@ int Debayer::NearestNeighbour()
     for(unsigned int index = 0;  index < _pixelCount/2; index++,clrindex+=2){
         if ((index/_width)%2==0){
             //get values of missing pixels at R and G1
+
             for(unsigned int j=0; j < 6; j+=3){
             _colored12Bit[clrindex*3 + j] = red[indexrg];
             _colored12Bit[clrindex*3 + j+1] = (gr1[indexrg] + gr2[indexrg])/2;
             _colored12Bit[clrindex*3 + j+2] = blu[indexrg];
             }
+
             indexrg++;
         }else{
             //get values of missing pixels at G2 and B
+
             for(unsigned int k = 0; k < 6; k+=3){
                 _colored12Bit[clrindex*3 + k] = red[indexgb];
                 _colored12Bit[clrindex*3 + k+1] = (gr1[indexgb]+gr2[indexgb])/2;
                 _colored12Bit[clrindex*3 + k+2] = blu[indexgb];
             }
+
             indexgb++;
         }
     }

@@ -7,6 +7,7 @@ PreProcessImage::PreProcessImage( int _width, int _height) : _RAWIMG(RAWIMG)
 {
     this->_width = _width;
     this->_height = _height;
+
     // all required counters
     _pixelCount= _width * _height;
     _byteCount= _width * _height * 3 / 2;
@@ -26,6 +27,7 @@ PreProcessImage::PreProcessImage( int _width, int _height) : _RAWIMG(RAWIMG)
         cout<<"Failed to open file....Exiting program"<<endl;
         exit(1);
     }
+    
     input.read(reinterpret_cast< char*>(_loadBuff),_byteCount);
     //extract 12 bit per pixel and store
     
