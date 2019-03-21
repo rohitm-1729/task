@@ -13,22 +13,27 @@ int main()
     PreProcessImage Image(WIDTH,HEIGHT);
     //Seperate channels of the Image 
     cout<<"Seperating R,G,G,B channels"<<endl;
-    SepChannels Channels(Image);
-    Channels.Seperate(Image);
+    Image.Seperate();
+    //SepChannels Channels(Image);
+    //Channels.Seperate(Image);
 
     cout<<"Debayering the image to a colored one.."<<endl;
-    Debayer Debayered(Channels);
+    Debayer Debayered(Image);
     Debayered.NearestNeighbour();
     
+    WriteImage Write(Debayered,Image);
     cout<<"Converting data to 8 bit format :"<<endl;
-    To8Bit EightBitImage(Debayered,Image);
-    EightBitImage.ConvertTo8();
+    Write.ConvertTo8();
+
+    //To8Bit EightBitImage(Debayered,Image);
+    //EightBitImage.ConvertTo8();
     cout<<"Intensity Values of 5x5 tile:"<<endl;
-    EightBitImage.PrintIntensityVals();
+    Write.PrintIntensityVals();
+    //EightBitImage.PrintIntensityVals();
     
     cout<<"Writing Image to PPM format"<<endl;
-    WriteImage WriteFile(EightBitImage);
-    WriteFile.WriteBoth();
+    //WriteImage WriteFile(EightBitImage);
+    Write.WriteBoth();
     
     cout<<"Check Images in "<<PGMIMG<<endl;
     return 0;

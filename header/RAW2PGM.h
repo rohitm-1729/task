@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <string.h>
 
-
+//used global variables for modification from a single place
 #define RAWIMG "../RAW_INPUT/input.raw12"
 #define PGMIMG "../PGM_OUT/"
 #define PGM_FILENAME_RED "Red1.pgm"
@@ -22,31 +22,43 @@ const int TILE_SIZE=5;
 
 class PreProcessImage
 {
-public:
+private:
     ifstream input;
     const char* _RAWIMG;
 
     uint8_t *LoadBuff;
     uint16_t *Buff12Bit;
+    uint16_t *Red,*Gr1,*Gr2,*Blu;
 
     unsigned int _width,_height,Byte_Count,PixelCount;
-
+public:
     PreProcessImage();
     PreProcessImage(int width ,int height);
     ~PreProcessImage();
-};
-class SepChannels
-{ 
-    //this class will seperate individual channels
-    public:
-    uint16_t *Red,*Gr1,*Gr2,*Blu;
-    unsigned int _width,_height,Byte_Count,PixelCount;
-    
-    SepChannels();
-    SepChannels(PreProcessImage &image);
 
-    int Seperate(PreProcessImage &image);
+    int Seperate();
 
+
+    unsigned int get_width()
+    {
+        return _width;
+    }
+    unsigned int get_height()
+    {
+        return _height;
+    }
+    unsigned int get_byteCount()
+    {
+        return Byte_Count;
+    }
+    unsigned int get_pixelCount()
+    {
+        return PixelCount;
+    }
+    void* getBuff12Bit()
+    {
+        return Buff12Bit;
+    }
     void* RedChannel()
     {
         return Red;
@@ -68,42 +80,48 @@ class SepChannels
     }
     
 };
-class Debayer : public SepChannels
+class Debayer
 {
-    public:
+    private:
     // this class will debayer the raw12 img which is still 12-bit format
+    unsigned int _width,PixelCount;
+    uint16_t *Red,*Gr1,*Gr2,*Blu;
     uint16_t *Colored12Bit;
-    Debayer();
-    Debayer(SepChannels &Sepimage);
-    int NearestNeighbour();
-};
-class To8Bit : public Debayer
-{
+
     public:
-    //this class is used to convert all data to 8bits
-    //and print intensity values of tiles
+    Debayer();
+    Debayer(PreProcessImage &Image);
+    int NearestNeighbour();
+
+    void* getColored()
+    {
+        return Colored12Bit;
+    }
+};
+class WriteImage 
+{
+    private:
+
+    unsigned int _width,_height,Byte_Count,PixelCount;
+
     uint16_t *Buff12Bit;
     uint8_t *Buff8Bit;
 
     uint8_t *Colored8Bit;
+    uint16_t *Colored12Bit;
 
+    uint16_t *Red,*Gr1,*Gr2,*Blu;
     uint8_t *Red8,*Gr18,*Gr28,*Blu8;
-
-    To8Bit();
-    To8Bit(Debayer& Debayerimage,PreProcessImage& image);
-
-    int ConvertTo8();
-    int PrintIntensityVals();
-};
-class WriteImage :  public To8Bit 
-{
-    public:
 
     ofstream pgmfile;
     ofstream ppmfile;
 
+    public:
     WriteImage();
-    WriteImage(To8Bit& Image8Bit);
+    WriteImage(Debayer& Debayerimage,PreProcessImage& image);
+
+    int ConvertTo8();
+    int PrintIntensityVals();
 
     int WriteIndividual(ofstream& pgmfile, uint8_t *channel,  const string& directory, const string&  PGM_FILENAME);
     int WriteColor(ofstream& ppmfile, uint8_t *channel,  const string& directory,const string& PPM_FILENAME);

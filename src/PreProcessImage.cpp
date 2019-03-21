@@ -12,6 +12,11 @@ PreProcessImage::PreProcessImage( int _width, int _height) : _RAWIMG(RAWIMG)
     LoadBuff = new uint8_t[Byte_Count];
     Buff12Bit= new uint16_t[PixelCount];
 
+    Red = new uint16_t[PixelCount/4];
+    Gr1 = new uint16_t[PixelCount/4];
+    Gr2 = new uint16_t[PixelCount/4];
+    Blu = new uint16_t[PixelCount/4];
+
     input.open(_RAWIMG,std::ios::binary);
     
     if(input.fail())
@@ -53,38 +58,38 @@ PreProcessImage::~PreProcessImage()
 }
 //Functions of the class SepChannels: 
 
-SepChannels::SepChannels()
-{
+// SepChannels::SepChannels()
+// {
 
-}
-SepChannels::SepChannels(PreProcessImage &image)
-{
-    this->_width=image._width;
-    this->_height=image._height;
+// }
+// SepChannels::SepChannels(PreProcessImage &image)
+// {
+//     this->_width=image.get_width();
+//     this->_height=image.get_height();
 
-    this->PixelCount=image.PixelCount;
-    this->Byte_Count=image.Byte_Count;
+//     this->PixelCount=image.get_pixelCount();
+//     this->Byte_Count=image.get_byteCount();
 
-    Red = new uint16_t[PixelCount/4];
-    Gr1 = new uint16_t[PixelCount/4];
-    Gr2 = new uint16_t[PixelCount/4];
-    Blu = new uint16_t[PixelCount/4];
+//     Red = new uint16_t[PixelCount/4];
+//     Gr1 = new uint16_t[PixelCount/4];
+//     Gr2 = new uint16_t[PixelCount/4];
+//     Blu = new uint16_t[PixelCount/4];
 
 
-}
-int SepChannels::Seperate(PreProcessImage& image)
+// }
+int PreProcessImage::Seperate()
 {
     // to seperate 4 colour channels
     unsigned long long int rgcount=0,gbcount=0;
 
     for(unsigned long long int  counter = 0; counter < PixelCount-1; counter += 2){
         if((counter/_width)%2==0){  // case for RGRGRGRGRG....
-            Red[rgcount]=image.Buff12Bit[counter];
-            Gr1[rgcount]=image.Buff12Bit[counter+1];
+            Red[rgcount]=Buff12Bit[counter];
+            Gr1[rgcount]=Buff12Bit[counter+1];
             rgcount++;
         }else{ //case for GBGBGBGBGB....
-            Gr2[gbcount]=image.Buff12Bit[counter];
-            Blu[gbcount]=image.Buff12Bit[counter+1];
+            Gr2[gbcount]=Buff12Bit[counter];
+            Blu[gbcount]=Buff12Bit[counter+1];
             gbcount++;
         }
     

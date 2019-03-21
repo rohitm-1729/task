@@ -7,17 +7,17 @@ Debayer::Debayer()
 {
 
 }
-Debayer::Debayer(SepChannels &Sepimage)
+Debayer::Debayer(PreProcessImage &Image)
 {
     //get all values to the object of this class
-    this->_width=Sepimage._width;
-    this->_height=Sepimage._height;
-    this->PixelCount=Sepimage.PixelCount;
+    this->_width=Image.get_width();
+    //this->_height=Image._height;
+    this->PixelCount=Image.get_pixelCount();
     
-    this->Red=static_cast<uint16_t*>(Sepimage.RedChannel());
-    this->Gr1=static_cast<uint16_t*>(Sepimage.Gr1Channel());
-    this->Gr2=static_cast<uint16_t*>(Sepimage.Gr2Channel());
-    this->Blu=static_cast<uint16_t*>(Sepimage.BluChannel());
+    this->Red=static_cast<uint16_t*>(Image.RedChannel());
+    this->Gr1=static_cast<uint16_t*>(Image.Gr1Channel());
+    this->Gr2=static_cast<uint16_t*>(Image.Gr2Channel());
+    this->Blu=static_cast<uint16_t*>(Image.BluChannel());
 
     Colored12Bit = new uint16_t[PixelCount*3];
 }
