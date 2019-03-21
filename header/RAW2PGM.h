@@ -46,10 +46,12 @@ public:
     {
         return _pixelCount;
     }
+
     void* getBuff12Bit()
     {
         return _buff12Bit;
     }
+    
     void* RedChannel()
     {
         return red;
