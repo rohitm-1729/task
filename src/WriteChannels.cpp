@@ -1,30 +1,33 @@
 #include "RAW2PGM.h"
 using namespace std;
 
+#define PGMIMG "../PGM_OUT/"
 
 WriteImage::WriteImage (Debayer& Debayerimage,PreProcessImage& image)
 {
     _width=image.get_width();
     _height=image.get_height();
 
-    PixelCount=image.get_pixelCount();
+    _pixelCount=image.get_pixelCount();
 
-    Buff12Bit=static_cast<uint16_t*> (image.getBuff12Bit());
+    _buff12Bit=static_cast<uint16_t*> (image.getBuff12Bit());
 
-    Red=static_cast<uint16_t*> (image.RedChannel());
-    Gr1=static_cast<uint16_t*> (image.Gr1Channel());
-    Gr2=static_cast<uint16_t*> (image.Gr2Channel());
-    Blu=static_cast<uint16_t*> (image.BluChannel());
+    red=static_cast<uint16_t*> (image.RedChannel());
+    gr1=static_cast<uint16_t*> (image.Gr1Channel());
+    gr2=static_cast<uint16_t*> (image.Gr2Channel());
+    blu=static_cast<uint16_t*> (image.BluChannel());
 
-    Colored12Bit=static_cast<uint16_t*>(Debayerimage.getColored());
+    _colored12Bit=static_cast<uint16_t*>(Debayerimage.getColored());
 
-    Red8 = new uint8_t[PixelCount];
-    Gr18 = new uint8_t[PixelCount];
-    Gr28 = new uint8_t[PixelCount];
-    Blu8 = new uint8_t[PixelCount];
+    red8 = new uint8_t[_pixelCount];
+    gr18 = new uint8_t[_pixelCount];
+    gr28 = new uint8_t[_pixelCount];
+    blu8 = new uint8_t[_pixelCount];
 
-    Colored8Bit = new uint8_t[PixelCount*3];
-    Buff8Bit = new uint8_t[PixelCount];
+    _colored8Bit = new uint8_t[_pixelCount*3];
+    _buff8Bit = new uint8_t[_pixelCount];
+
+
 }
 int WriteImage::ConvertTo8()
 {
@@ -33,21 +36,21 @@ int WriteImage::ConvertTo8()
         case 1:
             //this case is for converting to 8 bits by clipping the last 4 bits
             
-            for(unsigned long int index = 0; index<PixelCount*3; index++){
+            for(unsigned long int index = 0; index<_pixelCount*3; index++){
                 
-                if(index<PixelCount/4){
-                    Red8[index] = (Red[index] >> 4);
-                    Gr18[index] = (Gr1[index] >> 4);
-                    Gr28[index] = (Gr2[index] >> 4);
-                    Blu8[index] = (Blu[index] >> 4);
+                if(index<_pixelCount/4){
+                    red8[index] = (red[index] >> 4);
+                    gr18[index] = (gr1[index] >> 4);
+                    gr28[index] = (gr2[index] >> 4);
+                    blu8[index] = (blu[index] >> 4);
                 }
                 //to convert 12Bit buffer to 8Bit for Square tile values
-                if (index < PixelCount){
-                    Buff8Bit[index] = (Buff12Bit[index]>>4);
+                if (index < _pixelCount){
+                    _buff8Bit[index] = (_buff12Bit[index]>>4);
                 }
                 
                 // conversion for debayered image 
-                Colored8Bit[index] = (Colored12Bit[index]>>4);
+                _colored8Bit[index] = (_colored12Bit[index]>>4);
             }
             break;
         case 2:
@@ -69,7 +72,7 @@ int WriteImage::PrintIntensityVals()
     {
         for(unsigned long int row = tile; row < tile+5; row++)
         {
-            cout<<(unsigned)Buff8Bit[row]<<" ";
+            cout<<(unsigned)_buff8Bit[row]<<" ";
         }
         cout<<endl;
     }
@@ -77,11 +80,11 @@ int WriteImage::PrintIntensityVals()
 }
 int WriteImage::WriteBoth()
 {
-    WriteIndividual(pgmfile,Red8,PGMIMG,PGM_FILENAME_RED);
-    WriteIndividual(pgmfile,Gr18,PGMIMG,PGM_FILENAME_GR1);
-    WriteIndividual(pgmfile,Gr28,PGMIMG,PGM_FILENAME_GR2);
-    WriteIndividual(pgmfile,Blu8,PGMIMG,PGM_FILENAME_BLU);
-    WriteColor(ppmfile,Colored8Bit,PGMIMG,PPM_FILENAME_COL);
+    WriteIndividual(pgmfile,red8,PGMIMG,PGM_FILENAME_RED);
+    WriteIndividual(pgmfile,gr18,PGMIMG,PGM_FILENAME_GR1);
+    WriteIndividual(pgmfile,gr28,PGMIMG,PGM_FILENAME_GR2);
+    WriteIndividual(pgmfile,blu8,PGMIMG,PGM_FILENAME_BLU);
+    WriteColor(ppmfile,_colored8Bit,PGMIMG,PPM_FILENAME_COL);
 
     return 0;
 }
@@ -96,7 +99,7 @@ int WriteImage::WriteIndividual(ofstream& pgmfile, uint8_t *channel,  const stri
     }
     pgmfile<< "P2\n" << _width/2 << " " << _height/2 << "\n255\n";
     
-    for(unsigned long int write_index = 0; write_index < PixelCount/4; write_index++)
+    for(unsigned long int write_index = 0; write_index < _pixelCount/4; write_index++)
     {
         pgmfile<<(unsigned)(channel[write_index])<<" ";
     }
@@ -114,7 +117,7 @@ int WriteImage::WriteColor(ofstream& ppmfile, uint8_t *Colored,  const string& d
     }
 
     ppmfile<< "P3\n" << _width << " " << _height   << "\n255\n";
-    for(unsigned long int write_index = 0; write_index < PixelCount*3; write_index++)
+    for(unsigned long int write_index = 0; write_index < _pixelCount*3; write_index++)
     {
         ppmfile << (unsigned) (Colored[write_index]) << " ";
     }
