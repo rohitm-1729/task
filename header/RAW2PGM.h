@@ -7,15 +7,6 @@
 #include <stdint.h>
 #include <string.h>
 
-//used global variables for modification from a single place
-#define RAWIMG "../RAW_INPUT/input.raw12"
-#define PGMIMG "../PGM_OUT/"
-#define PGM_FILENAME_RED "Red1.pgm"
-#define PGM_FILENAME_GR1 "Green1.pgm"
-#define PGM_FILENAME_GR2 "Green2.pgm"
-#define PGM_FILENAME_BLU "Blue.pgm"
-#define PPM_FILENAME_COL "Color.ppm"
-
 using namespace std;
 
 const int TILE_SIZE=5;
@@ -26,11 +17,11 @@ private:
     ifstream input;
     const char* _RAWIMG;
 
-    uint8_t *LoadBuff;
-    uint16_t *Buff12Bit;
-    uint16_t *Red,*Gr1,*Gr2,*Blu;
+    uint8_t *_loadBuff;
+    uint16_t *_buff12Bit;
+    uint16_t *red,*gr1,*gr2,*blu;
 
-    unsigned int _width,_height,Byte_Count,PixelCount;
+    unsigned int _width,_height,_byteCount,_pixelCount;
 public:
     PreProcessImage();
     PreProcessImage(int width ,int height);
@@ -49,74 +40,81 @@ public:
     }
     unsigned int get_byteCount()
     {
-        return Byte_Count;
+        return _byteCount;
     }
     unsigned int get_pixelCount()
     {
-        return PixelCount;
+        return _pixelCount;
     }
     void* getBuff12Bit()
     {
-        return Buff12Bit;
+        return _buff12Bit;
     }
     void* RedChannel()
     {
-        return Red;
+        return red;
     }
 
     void* Gr1Channel()
     {
-        return Gr1;
+        return gr1;
     }
 
     void* Gr2Channel()
     {
-        return Gr2;
+        return gr2;
     }
 
     void* BluChannel()
     {
-        return Blu;
+        return blu;
     }
     
 };
 class Debayer
 {
-    private:
+private:
     // this class will debayer the raw12 img which is still 12-bit format
-    unsigned int _width,PixelCount;
-    uint16_t *Red,*Gr1,*Gr2,*Blu;
-    uint16_t *Colored12Bit;
+    unsigned int _width,_pixelCount;
+    uint16_t *red,*gr1,*gr2,*blu;
+    uint16_t *_colored12Bit;
 
-    public:
+public:
     Debayer();
     Debayer(PreProcessImage &Image);
     int NearestNeighbour();
 
     void* getColored()
     {
-        return Colored12Bit;
+        return _colored12Bit;
     }
 };
 class WriteImage 
 {
-    private:
+private:
 
-    unsigned int _width,_height,Byte_Count,PixelCount;
+    unsigned int _width,_height,_byteCount,_pixelCount;
 
-    uint16_t *Buff12Bit;
-    uint8_t *Buff8Bit;
+    uint16_t *_buff12Bit;
+    uint8_t *_buff8Bit;
 
-    uint8_t *Colored8Bit;
-    uint16_t *Colored12Bit;
+    uint8_t *_colored8Bit;
+    uint16_t *_colored12Bit;
 
-    uint16_t *Red,*Gr1,*Gr2,*Blu;
-    uint8_t *Red8,*Gr18,*Gr28,*Blu8;
+    uint16_t *red,*gr1,*gr2,*blu;
+    uint8_t *red8,*gr18,*gr28,*blu8;
 
     ofstream pgmfile;
     ofstream ppmfile;
 
-    public:
+    const string PGM_FILENAME_RED = "Red1.pgm";
+    const string PGM_FILENAME_GR1 = "Green1.pgm";
+    const string PGM_FILENAME_GR2 = "Green2.pgm";
+    const string PGM_FILENAME_BLU = "Blue.pgm";
+    const string PPM_FILENAME_COL = "Color.ppm";
+    
+
+public:
     WriteImage();
     WriteImage(Debayer& Debayerimage,PreProcessImage& image);
 
