@@ -15,15 +15,15 @@
 class ImageProcessor
 {
 private:
-    std::ifstream input;
     const std::string _RAWIMG;
+    std::ifstream _input;
 
+    unsigned int _width,_height,_byteCount,_pixelCount;
+    
     uint8_t *_loadBuff;
 
     uint8_t *_buff8Bit;
     uint16_t *_buff12Bit;
-
-    unsigned int _width,_height,_byteCount,_pixelCount;
 
     uint16_t *_red,*_gr1,*_gr2,*_blu;
     uint8_t *_red8,*_gr18,*_gr28,*_blu8;

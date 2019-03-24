@@ -12,13 +12,13 @@ ImageProcessor::ImageProcessor( int _width, int _height, const std::string& RAWI
     _loadBuff = new uint8_t[_byteCount];
     _buff12Bit= new uint16_t[_pixelCount];
     _colored12Bit = new uint16_t[_pixelCount*3];
-    input.open(_RAWIMG,std::ios::binary);
+    _input.open(_RAWIMG,std::ios::binary);
     
-    if(input.fail()){
+    if(_input.fail()){
         std::cout<<"Failed to open file....Exiting program"<<std::endl;
         exit(1);
     }
-    input.read(reinterpret_cast< char*>(_loadBuff),_byteCount);
+    _input.read(reinterpret_cast< char*>(_loadBuff),_byteCount);
     //extract 12 bit per pixel and store
     
     unsigned int j=0;
@@ -44,15 +44,6 @@ ImageProcessor::ImageProcessor( int _width, int _height, const std::string& RAWI
     }
     
     
-}
-ImageProcessor::~ImageProcessor()
-{
-    delete[] _loadBuff;
-    delete[] _buff12Bit;
-    delete[] _red,_gr1,_gr2,_blu;
-    delete[] _red8,_gr18,_gr28,_blu8;
-    delete[] _colored12Bit;
-    delete[] _colored8Bit;
 }
 
 void ImageProcessor::SeperateChannels()
@@ -83,6 +74,7 @@ void ImageProcessor::SeperateChannels()
     }
     
 }
+
 void ImageProcessor::ExtractTileValues(int TileSize)
 {
     for(unsigned int tile = 0; tile< _width*TileSize; tile+=_width)
@@ -94,6 +86,7 @@ void ImageProcessor::ExtractTileValues(int TileSize)
         std::cout << std::endl;
     }
 }
+
 void ImageProcessor::ImageWriter(const std::string& location)
 {
     bool grayscale=true;
@@ -105,6 +98,7 @@ void ImageProcessor::ImageWriter(const std::string& location)
 
     WriteChannel(!grayscale,_colored8Bit,location + PPM_FILENAME_COLOR);
 }
+
 void ImageProcessor::WriteChannel(bool grayscale,uint8_t* data,const std::string& fileName)
 {
     
@@ -167,6 +161,7 @@ void ImageProcessor::ConvertTo8Bit()
             break;
     }
 }
+
 void ImageProcessor::Clipper(uint16_t* data12Bit, uint8_t* data8Bit, unsigned int length)
 {
     for(unsigned int index=0; index < length; index++)
@@ -175,3 +170,12 @@ void ImageProcessor::Clipper(uint16_t* data12Bit, uint8_t* data8Bit, unsigned in
     }
 }
 
+ImageProcessor::~ImageProcessor()
+{
+    delete[] _loadBuff;
+    delete[] _buff12Bit;
+    delete[] _red,_gr1,_gr2,_blu;
+    delete[] _red8,_gr18,_gr28,_blu8;
+    delete[] _colored12Bit;
+    delete[] _colored8Bit;
+}
