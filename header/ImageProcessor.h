@@ -1,11 +1,12 @@
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef IMAGE_PROCESSOR_H
+#define IMAGE_PROCESSOR_H
 
 #include <iostream>
 #include <fstream>
 #include <stdint.h>
 #include <string.h>
 
+//modify filenames by changing the values of the following
 #define PGM_FILENAME_RED "Red.pgm"
 #define PGM_FILENAME_GR1 "Green1.pgm"
 #define PGM_FILENAME_GR2 "Green2.pgm"
@@ -58,19 +59,19 @@ public:
     void WriteChannel(bool grayscale,uint8_t* data, const std::string& fileName);
     
     //access functions
-    unsigned int get_width()
+    unsigned int get_width() const
     {
         return _width;
     }
-    unsigned int get_height()
+    unsigned int get_height() const 
     {
         return _height;
     }
-    unsigned int get_byteCount()
+    unsigned int get_byteCount() const
     {
         return _byteCount;
     }
-    unsigned int get_pixelCount()
+    unsigned int get_pixelCount() const
     {
         return _pixelCount;
     }

@@ -1,5 +1,5 @@
-#include "Image.h"
-#include "Debayer.h"
+#include "ImageProcessor.h"
+#include "DebayerAlgo.h"
 
 #define WIDTH 4096
 #define HEIGHT 3072

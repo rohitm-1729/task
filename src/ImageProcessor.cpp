@@ -1,4 +1,4 @@
-#include "Image.h"
+#include "ImageProcessor.h"
 
 
 ImageProcessor::ImageProcessor( int _width, int _height, const std::string& RAWIMG) : _RAWIMG(RAWIMG)
@@ -15,7 +15,7 @@ ImageProcessor::ImageProcessor( int _width, int _height, const std::string& RAWI
     _input.open(_RAWIMG,std::ios::binary);
     
     if(_input.fail()){
-        std::cout<<"Failed to open file....Exiting program"<<std::endl;
+        std::cout << "Failed to open file....Exiting program" << std::endl;
         exit(1);
     }
     _input.read(reinterpret_cast< char*>(_loadBuff),_byteCount);
@@ -26,17 +26,19 @@ ImageProcessor::ImageProcessor( int _width, int _height, const std::string& RAWI
 
         if(j%2==0){
             //first 8 bits of a complete element of _loadBuff
-            _buff12Bit[j]=_loadBuff[i];
+            _buff12Bit[j] = _loadBuff[i];
             //next 4 bits from _loadBuff[i+1]
-            _buff12Bit[j]=_buff12Bit[j]<<4;
-            _buff12Bit[j]=((_buff12Bit[j] | ((_loadBuff[i+1]>>4)&0x0F)));
+            _buff12Bit[j] = _buff12Bit[j]<<4;
+            _buff12Bit[j] = ((_buff12Bit[j] | ((_loadBuff[i+1]>>4)&0x0F)));
+            
             j++;
         }else{
             //first 4 bits from current element of _loadBuff
-            _buff12Bit[j]=(_loadBuff[i] & 0x0F);
+            _buff12Bit[j] = (_loadBuff[i] & 0x0F);
             //next 8 bits from next element of _loadBuff
-            _buff12Bit[j]=_buff12Bit[j]<<8;
-            _buff12Bit[j]=_buff12Bit[j]| _loadBuff[i+1];
+            _buff12Bit[j] = _buff12Bit[j]<<8;
+            _buff12Bit[j] = _buff12Bit[j]| _loadBuff[i+1];
+            
             i++;
             j++;
         }
@@ -58,15 +60,15 @@ void ImageProcessor::SeperateChannels()
     for(unsigned int  counter = 0; counter < _pixelCount-1; counter += 2){
         if((counter/_width)%2==0){  // case for RGRGRGRGRG....
             
-            _red[rgcount]=_buff12Bit[counter];
-            _gr1[rgcount]=_buff12Bit[counter+1];
+            _red[rgcount] = _buff12Bit[counter];
+            _gr1[rgcount] = _buff12Bit[counter+1];
             
             rgcount++;
 
         }else{ //case for GBGBGBGBGB....
             
-            _gr2[gbcount]=_buff12Bit[counter];
-            _blu[gbcount]=_buff12Bit[counter+1];
+            _gr2[gbcount] = _buff12Bit[counter];
+            _blu[gbcount] = _buff12Bit[counter+1];
             
             gbcount++;
         }
@@ -120,7 +122,7 @@ void ImageProcessor::WriteChannel(bool grayscale,uint8_t* data,const std::string
 
         for(unsigned int write_index = 0; write_index < length; write_index++)
         {
-            pgmfile<<(unsigned)(data[write_index])<<" ";
+            pgmfile << (unsigned)(data[write_index]) << " ";
         }
         
         pgmfile.close();
@@ -174,8 +176,14 @@ ImageProcessor::~ImageProcessor()
 {
     delete[] _loadBuff;
     delete[] _buff12Bit;
-    delete[] _red,_gr1,_gr2,_blu;
-    delete[] _red8,_gr18,_gr28,_blu8;
+    delete[] _red;
+    delete[] _gr1;
+    delete[] _gr2;
+    delete[] _blu;    
+    delete[] _red8;
+    delete[] _gr18;
+    delete[] _gr28;
+    delete[] _blu8;
     delete[] _colored12Bit;
     delete[] _colored8Bit;
 }

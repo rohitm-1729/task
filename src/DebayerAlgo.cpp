@@ -1,4 +1,4 @@
-#include "Debayer.h"
+#include "DebayerAlgo.h"
 
 DebayerAlgo::DebayerAlgo()
 {
@@ -12,12 +12,12 @@ DebayerAlgo::DebayerAlgo(ImageProcessor &image)
 
     _pixelCount=image.get_pixelCount();
     
-    _red=static_cast<uint16_t*>(image.RedChannel());
-    _gr1=static_cast<uint16_t*>(image.Gr1Channel());
-    _gr2=static_cast<uint16_t*>(image.Gr2Channel());
-    _blu=static_cast<uint16_t*>(image.BluChannel());
+    _red = static_cast<uint16_t*>(image.RedChannel());
+    _gr1 = static_cast<uint16_t*>(image.Gr1Channel());
+    _gr2 = static_cast<uint16_t*>(image.Gr2Channel());
+    _blu = static_cast<uint16_t*>(image.BluChannel());
 
-    _colored12Bit=static_cast<uint16_t*>(image.GetColored());
+    _colored12Bit = static_cast<uint16_t*>(image.GetColored());
    
 }
 void DebayerAlgo::NearestNeighbour ()
