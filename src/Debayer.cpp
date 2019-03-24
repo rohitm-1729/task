@@ -1,10 +1,10 @@
 #include "Debayer.h"
 
-Debayer::Debayer()
+DebayerAlgo::DebayerAlgo()
 {
 
 }
-Debayer::Debayer(ImageProcessor &image)
+DebayerAlgo::DebayerAlgo(ImageProcessor &image)
 {
     //get all values to the object of this class
     
@@ -20,7 +20,7 @@ Debayer::Debayer(ImageProcessor &image)
     _colored12Bit=static_cast<uint16_t*>(image.GetColored());
    
 }
-void Debayer::NearestNeighbour ()
+void DebayerAlgo::NearestNeighbour ()
 {
     unsigned int indexrg=0, indexgb=0, clrindex = 0;
     

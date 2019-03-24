@@ -17,7 +17,7 @@ int main()
     Image.SeperateChannels();
 
     std::cout << "Creating colored image by debayering..." << std::endl;
-    Debayer Container(Image);
+    DebayerAlgo Container(Image);
     Container.NearestNeighbour();
 
     Image.ConvertTo8Bit();
