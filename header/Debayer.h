@@ -3,7 +3,7 @@
 
 
 #include "Image.h"
-class Debayer
+class DebayerAlgo
 {
 private:
     
@@ -13,8 +13,8 @@ private:
 
 public:
     
-    Debayer();
-    Debayer(ImageProcessor& image);
+    DebayerAlgo();
+    DebayerAlgo(ImageProcessor& image);
     void NearestNeighbour();
 
 };
