@@ -1,34 +1,30 @@
-#include "RAW2PGM.h"
+#include "Image.h"
+#include "Debayer.h"
 
 #define WIDTH 4096
 #define HEIGHT 3072
 #define TILE_SIZE 5
 
-using namespace std;
+#define RAWIMG "../RAW_INPUT/input.raw12"
+#define PGMIMG "../PGM_OUT/"
 
 int main()
 {
-    //create an Image object
-    cout<<"Loading RAW12 Image into memory.."<<endl;
-    PreProcessImage Image(WIDTH,HEIGHT);
-    //Seperate channels of the Image 
-    cout<<"Seperating R,G,G,B channels"<<endl;
-    Image.Seperate();
+    std::cout << "Taking input from: " << RAWIMG << std::endl;
+    ImageProcessor Image(WIDTH,HEIGHT,RAWIMG);
 
-    cout<<"Debayering the image to a colored one.."<<endl;
-    Debayer Debayered(Image);
-    Debayered.NearestNeighbour();
-    
-    WriteImage Write(Debayered,Image);
-    cout<<"Converting data to 8 bit format :"<<endl;
-    Write.ConvertTo8();
+    std::cout << "Seperating Channels:...." << std::endl;
+    Image.SeperateChannels();
 
-    cout<<"Intensity Values of 5x5 tile:"<<endl;
-    Write.PrintIntensityVals();
-    
-    cout<<"Writing Image to PPM format"<<endl;
-    
-    Write.WriteBoth();
+    std::cout << "Creating colored image by debayering..." << std::endl;
+    Debayer Container(Image);
+    Container.NearestNeighbour();
 
+    Image.ConvertTo8Bit();
+    std::cout << "Writing PGM images in : " << PGMIMG << std::endl;
+    Image.ImageWriter(PGMIMG);
+
+    std::cout << "Extracting a " << TILE_SIZE << "x" << TILE_SIZE << " square tile: "<<std::endl;
+    Image.ExtractTileValues(TILE_SIZE);
     return 0;
 }
