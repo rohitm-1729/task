@@ -116,9 +116,9 @@ void ImageProcessor::WriteChannel(bool grayscale,uint8_t* data,const std::string
         pgmfile << (grayscale ? _height/2 :_height);
         pgmfile << "\n255\n";
 
-        unsigned long int length= (grayscale ? _pixelCount/4 : _pixelCount*3);
+        unsigned int length= (grayscale ? _pixelCount/4 : _pixelCount*3);
 
-        for(unsigned long int write_index = 0; write_index < length; write_index++)
+        for(unsigned int write_index = 0; write_index < length; write_index++)
         {
             pgmfile<<(unsigned)(data[write_index])<<" ";
         }

@@ -1,5 +1,3 @@
-//Function to Debayer Image using Nearest Neighbour Algorithm
-
 #include "Debayer.h"
 
 Debayer::Debayer()
