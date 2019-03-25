@@ -13,24 +13,31 @@
 int main()
 {
     std::cout << "Taking input from: " << RAWIMG << std::endl;
+
     Image image(WIDTH,HEIGHT);
+    
     image.setRedChannel();
     image.setGr1Channel();
     image.setGr2Channel();
     image.setBluChannel();
     image.setImgData();
     
-    std::cout << "Seperating Channels:...." << std::endl;
     RAW12Loader loader(image , RAWIMG);
+
+    std::cout << "Seperating Channels:...." << std::endl;
+    
     loader.SeperateChannels();
     loader.ConvertTo8Bit();
+    
     std::cout << "Extracting a " << TILE_SIZE << "x" << TILE_SIZE << " square tile: "<<std::endl;
     loader.ExtractTileValues(TILE_SIZE);
+    
     std::cout << "Creating colored image by debayering..." << std::endl;
     DebayerAlgo Container(image);
     Container.NearestNeighbour();
 
     PPMImageWriter Writer(image);
+    
     std::cout << "Writing PGM images in : " << PGMIMG << std::endl;
     Writer.ImageWriter(PGMIMG);
 

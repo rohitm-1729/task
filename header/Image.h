@@ -129,12 +129,4 @@ public:
 };
 
 
-
-// Image::~Image()
-// {
-// }
-
-
-
-
 #endif
