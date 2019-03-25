@@ -1,5 +1,7 @@
-#include "ImageProcessor.h"
+#include "Image.h"
 #include "DebayerAlgo.h"
+#include "PPMImageWriter.h"
+#include "RAW12Loader.h"
 
 #define WIDTH 4096
 #define HEIGHT 3072
@@ -11,20 +13,26 @@
 int main()
 {
     std::cout << "Taking input from: " << RAWIMG << std::endl;
-    ImageProcessor Image(WIDTH,HEIGHT,RAWIMG);
-
+    Image image(WIDTH,HEIGHT);
+    image.setRedChannel();
+    image.setGr1Channel();
+    image.setGr2Channel();
+    image.setBluChannel();
+    image.setImgData();
+    
     std::cout << "Seperating Channels:...." << std::endl;
-    Image.SeperateChannels();
-
+    RAW12Loader loader(image , RAWIMG);
+    loader.SeperateChannels();
+    loader.ConvertTo8Bit();
+    std::cout << "Extracting a " << TILE_SIZE << "x" << TILE_SIZE << " square tile: "<<std::endl;
+    loader.ExtractTileValues(TILE_SIZE);
     std::cout << "Creating colored image by debayering..." << std::endl;
-    DebayerAlgo Container(Image);
+    DebayerAlgo Container(image);
     Container.NearestNeighbour();
 
-    Image.ConvertTo8Bit();
+    PPMImageWriter Writer(image);
     std::cout << "Writing PGM images in : " << PGMIMG << std::endl;
-    Image.ImageWriter(PGMIMG);
+    Writer.ImageWriter(PGMIMG);
 
-    std::cout << "Extracting a " << TILE_SIZE << "x" << TILE_SIZE << " square tile: "<<std::endl;
-    Image.ExtractTileValues(TILE_SIZE);
     return 0;
 }

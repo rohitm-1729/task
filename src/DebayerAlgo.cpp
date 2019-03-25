@@ -4,20 +4,20 @@ DebayerAlgo::DebayerAlgo()
 {
 
 }
-DebayerAlgo::DebayerAlgo(ImageProcessor &image)
+DebayerAlgo::DebayerAlgo(Image &image)
 {
     //get all values to the object of this class
     
-    _width=image.get_width();
+    _width=image.getWidth();
 
-    _pixelCount=image.get_pixelCount();
+    _pixelCount=image.getPixelCount();
     
-    _red = static_cast<uint16_t*>(image.RedChannel());
-    _gr1 = static_cast<uint16_t*>(image.Gr1Channel());
-    _gr2 = static_cast<uint16_t*>(image.Gr2Channel());
-    _blu = static_cast<uint16_t*>(image.BluChannel());
+    _redChannel = static_cast<uint16_t*>(image.RedChannel());
+    _gr1Channel = static_cast<uint16_t*>(image.Gr1Channel());
+    _gr2Channel = static_cast<uint16_t*>(image.Gr2Channel());
+    _bluChannel = static_cast<uint16_t*>(image.BluChannel());
 
-    _colored12Bit = static_cast<uint16_t*>(image.GetColored());
+    _imgData = static_cast<uint16_t*>(image.getData());
    
 }
 void DebayerAlgo::NearestNeighbour ()
@@ -27,19 +27,23 @@ void DebayerAlgo::NearestNeighbour ()
     for(unsigned int index = 0;  index < _pixelCount/2; index++,clrindex+=2){
         if ((index/_width)%2==0){
             //get values of missing pixels at R and G1
+
             for(unsigned int j=0; j < 6; j+=3){
-            _colored12Bit[clrindex*3 + j] = _red[indexrg];
-            _colored12Bit[clrindex*3 + j+1] = (_gr1[indexrg] + _gr2[indexrg])/2;
-            _colored12Bit[clrindex*3 + j+2] = _blu[indexrg];
+            _imgData[clrindex*3 + j] = _redChannel[indexrg];
+            _imgData[clrindex*3 + j+1] = (_gr1Channel[indexrg] + _gr2Channel[indexrg])/2;
+            _imgData[clrindex*3 + j+2] = _bluChannel[indexrg];
             }
+
             indexrg++;
         }else{
             //get values of missing pixels at G2 and B
+            
             for(unsigned int k = 0; k < 6; k+=3){
-                _colored12Bit[clrindex*3 + k] = _red[indexgb];
-                _colored12Bit[clrindex*3 + k+1] = (_gr1[indexgb]+_gr2[indexgb])/2;
-                _colored12Bit[clrindex*3 + k+2] = _blu[indexgb];
+                _imgData[clrindex*3 + k] = _redChannel[indexgb];
+                _imgData[clrindex*3 + k+1] = (_gr1Channel[indexgb]+_gr2Channel[indexgb])/2;
+                _imgData[clrindex*3 + k+2] = _bluChannel[indexgb];
             }
+
             indexgb++;
         }
     
