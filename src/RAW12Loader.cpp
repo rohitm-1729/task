@@ -1,4 +1,4 @@
-#include "RAW12Loader.h"
+#include "RAW12Loader.hpp"
 
 
 RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAWIMG)
@@ -29,8 +29,8 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
     }
     _input.read(reinterpret_cast< char*>(_loadBuff),_byteCount);
     //extract 12 bit per pixel and store
-    
-    unsigned int j=0;
+ 
+     unsigned int j=0;
     for(unsigned int i = 0; i < _byteCount; i++){
 
         if(j%2==0){

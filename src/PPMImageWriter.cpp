@@ -1,4 +1,4 @@
-#include "PPMImageWriter.h"
+#include "PPMImageWriter.hpp"
 
 PPMImageWriter::PPMImageWriter()
 {

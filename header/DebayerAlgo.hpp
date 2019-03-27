@@ -1,7 +1,7 @@
 #ifndef DEBAYER_ALGO_H
 #define DEBAYER_ALGO_H
 
-#include "Image.h"
+#include "Image.hpp"
 
 class DebayerAlgo
 {

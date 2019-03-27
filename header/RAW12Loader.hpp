@@ -1,7 +1,7 @@
 #ifndef IMAGE_PROCESSOR_H
 #define IMAGE_PROCESSOR_H
 
-#include "Image.h"
+#include "Image.hpp"
 
 class RAW12Loader
 {

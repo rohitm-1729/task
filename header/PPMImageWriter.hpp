@@ -1,7 +1,7 @@
 #ifndef PPM_IMAGE_WRITER_H
 #define PPM_IMAGE_WRITER_H
 
-#include "Image.h"
+#include "Image.hpp"
 
 #define PGM_FILENAME_RED "Red.pgm"
 #define PGM_FILENAME_GR1 "Green1.pgm"

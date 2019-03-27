@@ -1,4 +1,4 @@
-#include "DebayerAlgo.h"
+#include "DebayerAlgo.hpp"
 
 DebayerAlgo::DebayerAlgo()
 {

@@ -1,7 +1,7 @@
-#include "Image.h"
-#include "DebayerAlgo.h"
-#include "PPMImageWriter.h"
-#include "RAW12Loader.h"
+#include "Image.hpp"
+#include "DebayerAlgo.hpp"
+#include "PPMImageWriter.hpp"
+#include "RAW12Loader.hpp"
 
 #define WIDTH 4096
 #define HEIGHT 3072
@@ -33,13 +33,13 @@ int main()
     loader.ExtractTileValues(TILE_SIZE);
     
     std::cout << "Creating colored image by debayering..." << std::endl;
-    DebayerAlgo Container(image);
-    Container.NearestNeighbour();
+    DebayerAlgo container(image);
+    container.NearestNeighbour();
 
-    PPMImageWriter Writer(image);
+    PPMImageWriter writer(image);
     
     std::cout << "Writing PGM images in : " << PGMIMG << std::endl;
-    Writer.ImageWriter(PGMIMG);
+    writer.ImageWriter(PGMIMG);
 
     return 0;
 }
