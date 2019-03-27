@@ -5,4 +5,9 @@ project(RAW2PGM)
 
 include_directories(header)
 file (GLOB SOURCES "src/*.cpp")
+
+add_library(Image SHARED header/Image.hpp)
+
+set_target_properties(Image PROPERTIES LINKER_LANGUAGE CXX)
 add_executable(convert ${SOURCES})
+target_link_libraries(convert PRIVATE Image)
