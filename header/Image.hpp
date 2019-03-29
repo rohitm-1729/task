@@ -15,12 +15,12 @@ private:
     unsigned int _byteCount,_pixelCount;
 
     //pixel data
-    void* _imgData;
+    uint16_t* _imgData;
     //channels
-    void* _red;
-    void* _gr1;
-    void* _gr2;
-    void* _blu;
+    uint16_t* _red;
+    uint16_t* _gr1;
+    uint16_t* _gr2;
+    uint16_t* _blu;
 
 public:
     Image():
@@ -104,25 +104,25 @@ public:
     {
         return _height;
     }
-    void* getData()
+    uint16_t* getData()
     {
         return _imgData;
     }
-    void* RedChannel()
+    uint16_t* RedChannel()
     {
         return _red;
     }
-    void* Gr1Channel()
+    uint16_t* Gr1Channel()
     {
         return _gr1;
     }
 
-    void* Gr2Channel()
+    uint16_t* Gr2Channel()
     {
         return _gr2;
     }
 
-    void* BluChannel()
+    uint16_t* BluChannel()
     {
         return _blu;
     }

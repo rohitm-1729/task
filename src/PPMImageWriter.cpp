@@ -10,12 +10,12 @@ PPMImageWriter::PPMImageWriter(Image& image)
     _height=image.getHeight();
     _pixelCount=image.getPixelCount();
 
-    _redChannel = static_cast<uint16_t*>(image.RedChannel());
-    _gr1Channel = static_cast<uint16_t*>(image.Gr1Channel());
-    _gr2Channel = static_cast<uint16_t*>(image.Gr2Channel());
-    _bluChannel = static_cast<uint16_t*>(image.BluChannel());
+    _redChannel = (image.RedChannel());
+    _gr1Channel = (image.Gr1Channel());
+    _gr2Channel = (image.Gr2Channel());
+    _bluChannel = (image.BluChannel());
     
-    _imgData = static_cast<uint16_t*>(image.getData());
+    _imgData = (image.getData());
 }
 
 void PPMImageWriter::ImageWriter(const std::string& location)

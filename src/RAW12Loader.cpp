@@ -11,12 +11,12 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
     _byteCount = image.getByteCount();
     
     //get image data
-    _imgData = static_cast<uint16_t*> (image.getData());
+    _imgData =  (image.getData());
 
-    _redChannel = static_cast<uint16_t*> (image.RedChannel());
-    _gr1Channel = static_cast<uint16_t*> (image.Gr1Channel());
-    _gr2Channel = static_cast<uint16_t*> (image.Gr2Channel());
-    _bluChannel = static_cast<uint16_t*> (image.BluChannel()); 
+    _redChannel =  (image.RedChannel());
+    _gr1Channel =  (image.Gr1Channel());
+    _gr2Channel =  (image.Gr2Channel());
+    _bluChannel =  (image.BluChannel()); 
     
     //helper buffer
     _loadBuff = new uint8_t[_byteCount];
@@ -33,7 +33,8 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
      unsigned int j=0;
     for(unsigned int i = 0; i < _byteCount; i++){
 
-        if(j%2==0){
+        if(j%2==0)
+        {
             //first 8 bits of a complete element of _loadBuff
             _imgData[j] = _loadBuff[i];
             //next 4 bits from _loadBuff[i+1]
@@ -43,7 +44,8 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
             //_imgData[j]=(_imgData[j] >> 8 | _imgData[j] <<8);
 
             j++;
-        }else{
+        }else
+        {
             //first 4 bits from current element of _loadBuff
             _imgData[j] = (_loadBuff[i] & 0x0F);
             //next 8 bits from next element of _loadBuff
@@ -64,7 +66,8 @@ void RAW12Loader::SeperateChannels()
 {
     unsigned int rgcount=0,gbcount=0;
 
-    for(unsigned int  counter = 0; counter < _pixelCount-1; counter += 2){
+    for(unsigned int  counter = 0; counter < _pixelCount-1; counter += 2)
+    {
         if((counter/_width)%2==0){  // case for RGRGRGRGRG....
             
             _redChannel[rgcount] = _imgData[counter];
