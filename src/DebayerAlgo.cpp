@@ -12,12 +12,12 @@ DebayerAlgo::DebayerAlgo(Image &image)
 
     _pixelCount=image.getPixelCount();
     
-    _redChannel = static_cast<uint16_t*>(image.RedChannel());
-    _gr1Channel = static_cast<uint16_t*>(image.Gr1Channel());
-    _gr2Channel = static_cast<uint16_t*>(image.Gr2Channel());
-    _bluChannel = static_cast<uint16_t*>(image.BluChannel());
+    _redChannel = image.RedChannel();
+    _gr1Channel = image.Gr1Channel();
+    _gr2Channel = image.Gr2Channel();
+    _bluChannel = image.BluChannel();
 
-    _imgData = static_cast<uint16_t*>(image.getData());
+    _imgData = image.getData();
    
 }
 void DebayerAlgo::NearestNeighbour ()
@@ -26,9 +26,9 @@ void DebayerAlgo::NearestNeighbour ()
     
     for(unsigned int index = 0;  index < _pixelCount/2; index++,clrindex+=2)
     {
-        if ((index/_width)%2==0){
+        if ((index/_width)%2==0)
+        {
             //get values of missing pixels at R and G1
-
             for(unsigned int j=0; j < 6; j+=3)
             {
             _imgData[clrindex*3 + j] = _redChannel[indexrg];
@@ -37,7 +37,8 @@ void DebayerAlgo::NearestNeighbour ()
             }
 
             indexrg++;
-        }else
+        }
+        else
         {
             //get values of missing pixels at G2 and B
             

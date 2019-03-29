@@ -32,6 +32,7 @@ public:
     RAW12Loader(Image& image, const std::string& _inputLoc);
     ~RAW12Loader();
 
+    void LoadImage();
     //seperates individual channels (R,G1,G2,B) from the RAW12 input
     void SeperateChannels();
 

@@ -23,14 +23,19 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
 
     _input.open(_RAWIMG,std::ios::binary);
     
-    if(_input.fail()){
+    if(_input.fail())
+    {
         std::cout << "Failed to open file....Exiting program" << std::endl;
         exit(1);
     }
     _input.read(reinterpret_cast< char*>(_loadBuff),_byteCount);
+
     //extract 12 bit per pixel and store
-    
-     unsigned int j=0;
+    LoadImage();
+}
+void RAW12Loader::LoadImage()
+{
+    unsigned int j=0;
     for(unsigned int i = 0; i < _byteCount; i++){
 
         if(j%2==0)
@@ -44,7 +49,8 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
             //_imgData[j]=(_imgData[j] >> 8 | _imgData[j] <<8);
 
             j++;
-        }else
+        }
+        else
         {
             //first 4 bits from current element of _loadBuff
             _imgData[j] = (_loadBuff[i] & 0x0F);
@@ -68,14 +74,17 @@ void RAW12Loader::SeperateChannels()
 
     for(unsigned int  counter = 0; counter < _pixelCount-1; counter += 2)
     {
-        if((counter/_width)%2==0){  // case for RGRGRGRGRG....
+        if((counter/_width)%2==0)
+        {  // case for RGRGRGRGRG....
             
             _redChannel[rgcount] = _imgData[counter];
             _gr1Channel[rgcount] = _imgData[counter+1];
             
             rgcount++;
 
-        }else{ //case for GBGBGBGBGB....
+        }
+        else
+        { //case for GBGBGBGBGB....
             
             _gr2Channel[gbcount] = _imgData[counter];
             _bluChannel[gbcount] = _imgData[counter+1];
@@ -91,7 +100,8 @@ void RAW12Loader::SeperateChannels()
 void RAW12Loader::ConvertTo8Bit()
 {
     unsigned int choice=1;//change this for user input
-    switch (choice){
+    switch (choice)
+    {
         case 1:
             //this case is for converting to 8 bits by clipping the last 4 bits
             
