@@ -29,7 +29,7 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
     }
     _input.read(reinterpret_cast< char*>(_loadBuff),_byteCount);
     //extract 12 bit per pixel and store
- 
+    
      unsigned int j=0;
     for(unsigned int i = 0; i < _byteCount; i++){
 
@@ -39,7 +39,9 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
             //next 4 bits from _loadBuff[i+1]
             _imgData[j] = _imgData[j]<<4;
             _imgData[j] = ((_imgData[j] | ((_loadBuff[i+1]>>4)&0x0F)));
-            
+            //tried swapping bytes ,doesn't work for this data
+            //_imgData[j]=(_imgData[j] >> 8 | _imgData[j] <<8);
+
             j++;
         }else{
             //first 4 bits from current element of _loadBuff
@@ -48,6 +50,9 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
             _imgData[j] = _imgData[j]<<8;
             _imgData[j] = _imgData[j]| _loadBuff[i+1];
             
+            //tried swapping bytes ,doesn't work for this data
+            //_imgData[j]=(_imgData[j] >> 8 | _imgData[j] <<8);
+
             i++;
             j++;
         }

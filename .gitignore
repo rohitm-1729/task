@@ -1,3 +1,9 @@
-./.vscode/
-/vscode/
-vscode/
+#vscode settings
+.vscode/
+.vscode/ipch/
+
+#generated image files
+PGM_OUT/
+
+#leave build files
+build/
