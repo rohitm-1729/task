@@ -29,15 +29,19 @@ private:
 public:
     //construct the image object with all the required attributes
 
-    RAW12Loader(Image& image, const std::string& _inputLoc);
+    RAW12Loader(Image& image, const std::string& _inputLocation);
     ~RAW12Loader();
 
-    void LoadImage();
+    void LoadSensels();
+
+    void SwapEndianness();
+    
     //seperates individual channels (R,G1,G2,B) from the RAW12 input
     void SeperateChannels();
 
     //Prints the intensity values of the square tile of size =TILE_SIZE
-    void ExtractTileValues(int TILE_SIZE);
+    void IntensityValues(unsigned int TILE_SIZE);
+    void PrintTileValues(uint16_t* data, unsigned int TileSize, std::string _channelName);
 
     //Converts the 12Bit data to 8Bit data
     void ConvertTo8Bit();

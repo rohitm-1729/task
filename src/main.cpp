@@ -25,20 +25,30 @@ int main()
     RAW12Loader loader(image , RAWIMG);
 
     std::cout << "Seperating Channels:...." << std::endl;
+
+    //swapping isn't required for this data
+    //loader.SwapEndianness();
+
+    loader.LoadSensels();
     
     loader.SeperateChannels();
+
     loader.ConvertTo8Bit();
     
     std::cout << "Extracting a " << TILE_SIZE << "x" << TILE_SIZE << " square tile: "<<std::endl;
-    loader.ExtractTileValues(TILE_SIZE);
+
+    loader.IntensityValues(TILE_SIZE);
     
     std::cout << "Creating colored image by debayering..." << std::endl;
+
     DebayerAlgo container(image);
+
     container.NearestNeighbour();
 
     PPMImageWriter writer(image);
     
-    std::cout << "Writing PGM images in : " << PGMIMG << std::endl;
+    std::cout << "Writing PGM/PPM images in : " << PGMIMG << std::endl;
+
     writer.ImageWriter(PGMIMG);
 
     return 0;

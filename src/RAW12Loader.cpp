@@ -11,12 +11,12 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
     _byteCount = image.getByteCount();
     
     //get image data
-    _imgData =  (image.getData());
+    _imgData = image.getData();
 
-    _redChannel =  (image.RedChannel());
-    _gr1Channel =  (image.Gr1Channel());
-    _gr2Channel =  (image.Gr2Channel());
-    _bluChannel =  (image.BluChannel()); 
+    _redChannel = image.RedChannel();
+    _gr1Channel = image.Gr1Channel();
+    _gr2Channel = image.Gr2Channel();
+    _bluChannel = image.BluChannel(); 
     
     //helper buffer
     _loadBuff = new uint8_t[_byteCount];
@@ -28,25 +28,24 @@ RAW12Loader::RAW12Loader( Image& image, const std::string& RAWIMG) : _RAWIMG(RAW
         std::cout << "Failed to open file....Exiting program" << std::endl;
         exit(1);
     }
+
     _input.read(reinterpret_cast< char*>(_loadBuff),_byteCount);
 
-    //extract 12 bit per pixel and store
-    LoadImage();
 }
-void RAW12Loader::LoadImage()
+void RAW12Loader::LoadSensels()
 {
-    unsigned int j=0;
-    for(unsigned int i = 0; i < _byteCount; i++){
-
+    //extracting 12 bit per pixel for general usage
+    for(unsigned int i = 0,j=0; i < _byteCount; i++)
+    {
         if(j%2==0)
         {
             //first 8 bits of a complete element of _loadBuff
             _imgData[j] = _loadBuff[i];
+
             //next 4 bits from _loadBuff[i+1]
             _imgData[j] = _imgData[j]<<4;
+
             _imgData[j] = ((_imgData[j] | ((_loadBuff[i+1]>>4)&0x0F)));
-            //tried swapping bytes ,doesn't work for this data
-            //_imgData[j]=(_imgData[j] >> 8 | _imgData[j] <<8);
 
             j++;
         }
@@ -54,12 +53,11 @@ void RAW12Loader::LoadImage()
         {
             //first 4 bits from current element of _loadBuff
             _imgData[j] = (_loadBuff[i] & 0x0F);
+            
             //next 8 bits from next element of _loadBuff
             _imgData[j] = _imgData[j]<<8;
+
             _imgData[j] = _imgData[j]| _loadBuff[i+1];
-            
-            //tried swapping bytes ,doesn't work for this data
-            //_imgData[j]=(_imgData[j] >> 8 | _imgData[j] <<8);
 
             i++;
             j++;
@@ -67,7 +65,18 @@ void RAW12Loader::LoadImage()
        
     }
 }
+void RAW12Loader::SwapEndianness()
+{
+    for(unsigned int i = 0; i < _byteCount-3; i+=3)
+    {
+        //swap every two bytes of input data
+        std::swap(_loadBuff[i],_loadBuff[i+2]);
+        std::swap(_loadBuff[i+1],_loadBuff[i+3]);
 
+        //swap 12Bit sensel data
+        //_imgData[i] = (_imgData[i] >> 8 | _imgData[i] <<8);
+    }
+}
 void RAW12Loader::SeperateChannels()
 {
     unsigned int rgcount=0,gbcount=0;
@@ -106,12 +115,16 @@ void RAW12Loader::ConvertTo8Bit()
             //this case is for converting to 8 bits by clipping the last 4 bits
             
             Clipper(_redChannel,_pixelCount/4);
-            Clipper(_gr1Channel,_pixelCount/4);
-            Clipper(_gr2Channel,_pixelCount/4);
-            Clipper(_bluChannel,_pixelCount/4);
-            Clipper(_imgData,_pixelCount);
-            break;
 
+            Clipper(_gr1Channel,_pixelCount/4);
+
+            Clipper(_gr2Channel,_pixelCount/4);
+
+            Clipper(_bluChannel,_pixelCount/4);
+
+            Clipper(_imgData,_pixelCount);
+            
+            break;
         case 2:
             //this case is for converting to 8 bits using non linear curve 
             /* for(unsigned int i = 0; i < pixelcount; i++)
@@ -130,14 +143,28 @@ void RAW12Loader::Clipper(uint16_t* data,unsigned int length)
         data[index] = (data[index]>>4);
     }
 }
-
-void RAW12Loader::ExtractTileValues(int TileSize)
+void RAW12Loader::IntensityValues(unsigned int TileSize)
 {
-    for(unsigned int tile = 0; tile< _width*TileSize; tile+=_width)
+    
+    PrintTileValues(_redChannel,TileSize,"Red");
+    
+    PrintTileValues(_gr1Channel,TileSize, "Green");
+    
+    PrintTileValues(_gr2Channel, TileSize, "Blue");
+    
+    PrintTileValues(_bluChannel, TileSize, "Blue");
+
+    std::cout << std::endl;
+}
+void RAW12Loader::PrintTileValues(uint16_t* _data, unsigned int TileSize, std::string _channelName)
+{
+    std::cout << "Intensity values of "<< _channelName <<" Channel" << std::endl;
+
+    for(unsigned int row= 0; row < TileSize * TileSize; row += TileSize)
     {
-        for(unsigned int row = tile; row < tile+5; row++)
+        for(unsigned int i = 0; i < TileSize; i++)
         {
-            std::cout << (unsigned) _imgData[row] << " ";
+            std::cout << (unsigned) _data[row + i] << " ";
         }
         std::cout << std::endl;
     }
