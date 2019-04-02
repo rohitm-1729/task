@@ -6,7 +6,6 @@ DebayerAlgo::DebayerAlgo()
 
 DebayerAlgo::DebayerAlgo(Image &img)
 {
-
     // get dimensions
     _width = img.GetWidth();
 
@@ -58,5 +57,4 @@ void DebayerAlgo::NearestNeighbour()
 
 DebayerAlgo::~DebayerAlgo()
 {
-
 }

@@ -3,7 +3,7 @@
 
 #include "Image.hpp"
 
-// global variables only when this header is called
+// global variables for only when this header is called
 #define PGM_FILENAME_RED "Red.pgm"
 #define PGM_FILENAME_GR1 "Green1.pgm"
 #define PGM_FILENAME_GR2 "Green2.pgm"

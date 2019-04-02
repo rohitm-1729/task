@@ -84,7 +84,6 @@ void RAW12Loader::SeperateChannels()
     {
         if((counter / _width) % 2 == 0)
         { // case for RGRGRGRGRG....
-
             _redChannel[rgcount] = _imgData[counter];
             _gr1Channel[rgcount] = _imgData[counter + 1];
 
@@ -92,7 +91,6 @@ void RAW12Loader::SeperateChannels()
         }
         else
         { // case for GBGBGBGBGB....
-
             _gr2Channel[gbcount] = _imgData[counter];
             _bluChannel[gbcount] = _imgData[counter + 1];
 
@@ -135,12 +133,10 @@ void RAW12Loader::Clipper(uint16_t* data, unsigned int length)
 
 void RAW12Loader::IntensityValues(unsigned int TileSize)
 {
-
     PrintTileValues(_redChannel, TileSize, "Red");
     PrintTileValues(_gr1Channel, TileSize, "Green");
     PrintTileValues(_gr2Channel, TileSize, "Green2");
     PrintTileValues(_bluChannel, TileSize, "Blue");
-
 }
 
 void RAW12Loader::PrintTileValues(uint16_t* data, unsigned int TileSize, std::string _channelName)
