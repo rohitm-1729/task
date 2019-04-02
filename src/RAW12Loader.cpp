@@ -143,7 +143,7 @@ void RAW12Loader::IntensityValues(unsigned int TileSize)
 
 }
 
-void RAW12Loader::PrintTileValues(uint16_t* _data, unsigned int TileSize, std::string _channelName)
+void RAW12Loader::PrintTileValues(uint16_t* data, unsigned int TileSize, std::string _channelName)
 {
     std::cout << "Intensity values of " << _channelName << " Channel" << std::endl;
 
@@ -151,7 +151,7 @@ void RAW12Loader::PrintTileValues(uint16_t* _data, unsigned int TileSize, std::s
     {
         for(unsigned int i = 0; i < TileSize; i++)
         {
-            std::cout << (unsigned)_data[row + i] << " ";
+            std::cout << (unsigned)data[row + i] << " ";
         }
         std::cout << std::endl;
     }
