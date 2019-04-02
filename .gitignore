@@ -1,6 +1,5 @@
 #vscode settings
-.vscode/
-.vscode/ipch/*
+.vscode/*
 
 #generated image files
 PGM_OUT/
