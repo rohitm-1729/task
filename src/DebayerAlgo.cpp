@@ -8,9 +8,9 @@ DebayerAlgo::DebayerAlgo(Image &img)
 {
 
     // get dimensions
-    _width = img.getWidth();
+    _width = img.GetWidth();
 
-    _pixelCount = img.getPixelCount();
+    _pixelCount = img.GetPixelCount();
 
     // get channels
     _redChannel = img.RedChannel();
@@ -19,7 +19,7 @@ DebayerAlgo::DebayerAlgo(Image &img)
     _bluChannel = img.BluChannel();
 
     // get pixel data
-    _imgData = img.getData();
+    _imgData = img.GetData();
 }
 
 DebayerAlgo::~DebayerAlgo()

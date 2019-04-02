@@ -7,9 +7,9 @@ PPMImageWriter::PPMImageWriter()
 PPMImageWriter::PPMImageWriter(Image &img)
 {
     // get image dimensions
-    _width      = img.getWidth();
-    _height     = img.getHeight();
-    _pixelCount = img.getPixelCount();
+    _width      = img.GetWidth();
+    _height     = img.GetHeight();
+    _pixelCount = img.GetPixelCount();
 
     // get data of channels
     _redChannel = img.RedChannel();
@@ -18,12 +18,12 @@ PPMImageWriter::PPMImageWriter(Image &img)
     _bluChannel = img.BluChannel();
 
      //get pixel data
-    _imgData = img.getData();
+    _imgData = img.GetData();
 }
 
 PPMImageWriter::~PPMImageWriter()
 {
-  
+
 }
 
 void PPMImageWriter::WriteImage(const std::string &location)

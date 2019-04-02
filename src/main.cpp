@@ -16,11 +16,11 @@ int main()
 
     Image img(WIDTH, HEIGHT);
 
-    img.setRedChannel();
-    img.setGr1Channel();
-    img.setGr2Channel();
-    img.setBluChannel();
-    img.setImgData();
+    img.SetRedChannel();
+    img.SetGr1Channel();
+    img.SetGr2Channel();
+    img.SetBluChannel();
+    img.SetImgData();
 
     RAW12Loader loader(img, RAWIMG);
 

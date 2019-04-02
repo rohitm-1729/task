@@ -39,56 +39,56 @@ public:
         _byteCount  = _width * _height * 3 / 2;
     }
 
-    void setRedChannel()
+    void SetRedChannel()
     {
         if(_red == nullptr)
         {
             _red = new uint16_t[_pixelCount / 4];
         }
     }
-    void setGr1Channel()
+    void SetGr1Channel()
     {
         if(_gr1 == nullptr)
         {
             _gr1 = new uint16_t[_pixelCount / 4];
         }
     }
-    void setGr2Channel()
+    void SetGr2Channel()
     {
         if(_gr2 == nullptr)
         {
             _gr2 = new uint16_t[_pixelCount / 4];
         }
     }
-    void setBluChannel()
+    void SetBluChannel()
     {
         if(_blu == nullptr)
         {
             _blu = new uint16_t[_pixelCount / 4];
         }
     }
-    void setImgData()
+    void SetImgData()
     {
         // for R,G,B combine
         _imgData = new uint16_t[_pixelCount * 3];
     }
-    unsigned int getPixelCount()
+    unsigned int GetPixelCount()
     {
         return _pixelCount;
     }
-    unsigned int getByteCount()
+    unsigned int GetByteCount()
     {
         return _byteCount;
     }
-    unsigned int getWidth()
+    unsigned int GetWidth()
     {
         return _width;
     }
-    unsigned int getHeight()
+    unsigned int GetHeight()
     {
         return _height;
     }
-    uint16_t* getData()
+    uint16_t* GetData()
     {
         return _imgData;
     }

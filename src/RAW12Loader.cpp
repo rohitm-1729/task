@@ -3,14 +3,14 @@
 RAW12Loader::RAW12Loader(Image& img, const std::string& RAWIMG) : _RAWIMG(RAWIMG)
 {
     // dimensions
-    _width  = img.getWidth();
-    _height = img.getHeight();
+    _width  = img.GetWidth();
+    _height = img.GetHeight();
 
-    _pixelCount = img.getPixelCount();
-    _byteCount  = img.getByteCount();
+    _pixelCount = img.GetPixelCount();
+    _byteCount  = img.GetByteCount();
 
     // get image data
-    _imgData = img.getData();
+    _imgData = img.GetData();
 
     _redChannel = img.RedChannel();
     _gr1Channel = img.Gr1Channel();
