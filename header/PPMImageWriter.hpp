@@ -11,22 +11,28 @@
 
 class PPMImageWriter
 {
-  private:
+private:
+    // dimensions
+    unsigned int _width, _height, _pixelCount;
+
+    // channels
     uint16_t *_redChannel;
     uint16_t *_gr1Channel;
     uint16_t *_gr2Channel;
     uint16_t *_bluChannel;
 
+    // pixel data
     uint16_t *_imgData;
 
-    unsigned int _width, _height, _pixelCount;
-
-  public:
+public:
     PPMImageWriter();
+
     PPMImageWriter(Image &img);
 
-    //Writing the data in pgm format for channels and ppm for debayered image
-    void ImageWriter(const std::string &location);
+    ~PPMImageWriter();
+
+    // Writing the data in pgm format for channels and ppm for debayered image
+    void WriteImage(const std::string &location);
     void WriteChannel(bool grayscale, uint16_t *data, const std::string &fileName);
 };
 

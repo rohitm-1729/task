@@ -27,12 +27,14 @@ private:
 
 public:
     // construct the image object with all the required attributes
-
     RAW12Loader(Image &img, const std::string &_inputLocation);
+
     ~RAW12Loader();
 
+    // load 12 bit values
     void LoadSensels();
 
+    // Swap data's endianness
     void SwapEndianness();
 
     // seperates individual channels (R,G1,G2,B) from the RAW12 input

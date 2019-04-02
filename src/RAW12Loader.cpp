@@ -30,6 +30,7 @@ RAW12Loader::RAW12Loader(Image& img, const std::string& RAWIMG) : _RAWIMG(RAWIMG
 
     _input.read(reinterpret_cast<char*>(_loadBuff), _byteCount);
 }
+
 void RAW12Loader::LoadSensels()
 {
     // extracting 12 bit per pixel for general usage
@@ -42,7 +43,8 @@ void RAW12Loader::LoadSensels()
 
             // next 4 bits from _loadBuff[i+1]
             _imgData[j] = _imgData[j] << 4;
-            _imgData[j] = ((_imgData[j] | ((_loadBuff[i + 1] >> 4) & 0x0F)));
+            _imgData[j] = ((_imgData[j] |
+                          ((_loadBuff[i + 1] >> 4) & 0x0F)));
 
             j++;
         }
@@ -60,6 +62,7 @@ void RAW12Loader::LoadSensels()
         }
     }
 }
+
 void RAW12Loader::SwapEndianness()
 {
     for(unsigned int i = 0; i < _byteCount - 3; i += 3)
@@ -72,6 +75,7 @@ void RAW12Loader::SwapEndianness()
         //_imgData[i] = (_imgData[i] >> 8 | _imgData[i] <<8);
     }
 }
+
 void RAW12Loader::SeperateChannels()
 {
     unsigned int rgcount = 0, gbcount = 0;
@@ -103,8 +107,8 @@ void RAW12Loader::ConvertTo8Bit()
     switch(choice)
     {
     case 1:
-        // this case is for converting to 8 bits by clipping the last 4 bits
 
+        // this case is for converting to 8 bits by clipping the last 4 bits
         Clipper(_redChannel, _pixelCount / 4);
         Clipper(_gr1Channel, _pixelCount / 4);
         Clipper(_gr2Channel, _pixelCount / 4);
@@ -115,15 +119,12 @@ void RAW12Loader::ConvertTo8Bit()
         break;
     case 2:
         // this case is for converting to 8 bits using non linear curve
-        /* for(unsigned int i = 0; i < pixelcount; i++)
-    {
-
-    } */
-
+    
     default:
         break;
     }
 }
+
 void RAW12Loader::Clipper(uint16_t* data, unsigned int length)
 {
     for(unsigned int index = 0; index < length; index++)
@@ -131,6 +132,7 @@ void RAW12Loader::Clipper(uint16_t* data, unsigned int length)
         data[index] = (data[index] >> 4);
     }
 }
+
 void RAW12Loader::IntensityValues(unsigned int TileSize)
 {
 
@@ -140,6 +142,7 @@ void RAW12Loader::IntensityValues(unsigned int TileSize)
     PrintTileValues(_bluChannel, TileSize, "Blue");
 
 }
+
 void RAW12Loader::PrintTileValues(uint16_t* _data, unsigned int TileSize, std::string _channelName)
 {
     std::cout << "Intensity values of " << _channelName << " Channel" << std::endl;
@@ -153,6 +156,7 @@ void RAW12Loader::PrintTileValues(uint16_t* _data, unsigned int TileSize, std::s
         std::cout << std::endl;
     }
 }
+
 RAW12Loader::~RAW12Loader()
 {
 }

@@ -11,16 +11,22 @@ PPMImageWriter::PPMImageWriter(Image &img)
     _height     = img.getHeight();
     _pixelCount = img.getPixelCount();
 
-    // get data of image
+    // get data of channels
     _redChannel = img.RedChannel();
     _gr1Channel = img.Gr1Channel();
     _gr2Channel = img.Gr2Channel();
     _bluChannel = img.BluChannel();
 
+     //get pixel data
     _imgData = img.getData();
 }
 
-void PPMImageWriter::ImageWriter(const std::string &location)
+PPMImageWriter::~PPMImageWriter()
+{
+  
+}
+
+void PPMImageWriter::WriteImage(const std::string &location)
 {
     bool grayscale = true;
 
@@ -42,6 +48,7 @@ void PPMImageWriter::WriteChannel(bool grayscale, uint16_t *data, const std::str
         throw("Can't open pgm file");
     }
 
+    //choose format from grayscale and color
     pgmfile << (grayscale ? "P2" : "P3") << std::endl;
     pgmfile << (grayscale ? _width / 2 : _width);
     pgmfile << " ";
@@ -49,7 +56,8 @@ void PPMImageWriter::WriteChannel(bool grayscale, uint16_t *data, const std::str
     pgmfile << "255" << std::endl;
 
     unsigned int length = (grayscale ? _pixelCount / 4 : _pixelCount * 3);
-
+    
+    //write data to file
     for(unsigned int write_index = 0; write_index < length; write_index++)
     {
         pgmfile << (unsigned)(data[write_index]) << " ";

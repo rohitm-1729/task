@@ -44,9 +44,9 @@ int main()
     container.NearestNeighbour();
 
     std::cout << "Writing PGM/PPM images in : " << PGMIMG << std::endl;
-    
+
     PPMImageWriter writer(img);
-    writer.ImageWriter(PGMIMG);
+    writer.WriteImage(PGMIMG);
 
     std::cout << "Check Images in " << PGMIMG << std::endl;
 

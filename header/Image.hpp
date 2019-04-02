@@ -26,6 +26,7 @@ public:
     Image() : _width(0), _height(0), _red(nullptr), _gr1(nullptr), _gr2(nullptr), _blu(nullptr)
     {
     }
+
     Image(unsigned int _width, unsigned int _height) :
         _width(_width),
         _height(_height),
@@ -37,6 +38,7 @@ public:
         _pixelCount = _width * _height;
         _byteCount  = _width * _height * 3 / 2;
     }
+
     ~Image()
     {
         delete[](uint16_t*) _imgData;
