@@ -1,21 +1,21 @@
 #include "RAW12Loader.hpp"
 
-RAW12Loader::RAW12Loader(Image& image, const std::string& RAWIMG) : _RAWIMG(RAWIMG)
+RAW12Loader::RAW12Loader(Image& img, const std::string& RAWIMG) : _RAWIMG(RAWIMG)
 {
     // dimensions
-    _width  = image.getWidth();
-    _height = image.getHeight();
+    _width  = img.getWidth();
+    _height = img.getHeight();
 
-    _pixelCount = image.getPixelCount();
-    _byteCount  = image.getByteCount();
+    _pixelCount = img.getPixelCount();
+    _byteCount  = img.getByteCount();
 
     // get image data
-    _imgData = image.getData();
+    _imgData = img.getData();
 
-    _redChannel = image.RedChannel();
-    _gr1Channel = image.Gr1Channel();
-    _gr2Channel = image.Gr2Channel();
-    _bluChannel = image.BluChannel();
+    _redChannel = img.RedChannel();
+    _gr1Channel = img.Gr1Channel();
+    _gr2Channel = img.Gr2Channel();
+    _bluChannel = img.BluChannel();
 
     // helper buffer
     _loadBuff = new uint8_t[_byteCount];
@@ -42,7 +42,6 @@ void RAW12Loader::LoadSensels()
 
             // next 4 bits from _loadBuff[i+1]
             _imgData[j] = _imgData[j] << 4;
-
             _imgData[j] = ((_imgData[j] | ((_loadBuff[i + 1] >> 4) & 0x0F)));
 
             j++;
@@ -54,7 +53,6 @@ void RAW12Loader::LoadSensels()
 
             // next 8 bits from next element of _loadBuff
             _imgData[j] = _imgData[j] << 8;
-
             _imgData[j] = _imgData[j] | _loadBuff[i + 1];
 
             i++;
@@ -108,11 +106,8 @@ void RAW12Loader::ConvertTo8Bit()
         // this case is for converting to 8 bits by clipping the last 4 bits
 
         Clipper(_redChannel, _pixelCount / 4);
-
         Clipper(_gr1Channel, _pixelCount / 4);
-
         Clipper(_gr2Channel, _pixelCount / 4);
-
         Clipper(_bluChannel, _pixelCount / 4);
 
         Clipper(_imgData, _pixelCount);
@@ -140,14 +135,10 @@ void RAW12Loader::IntensityValues(unsigned int TileSize)
 {
 
     PrintTileValues(_redChannel, TileSize, "Red");
-
     PrintTileValues(_gr1Channel, TileSize, "Green");
-
     PrintTileValues(_gr2Channel, TileSize, "Green2");
-
     PrintTileValues(_bluChannel, TileSize, "Blue");
 
-    std::cout << std::endl;
 }
 void RAW12Loader::PrintTileValues(uint16_t* _data, unsigned int TileSize, std::string _channelName)
 {

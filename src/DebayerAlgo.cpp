@@ -3,20 +3,20 @@
 DebayerAlgo::DebayerAlgo()
 {
 }
-DebayerAlgo::DebayerAlgo(Image &image)
+DebayerAlgo::DebayerAlgo(Image &img)
 {
     // get all values to the object of this class
 
-    _width = image.getWidth();
+    _width = img.getWidth();
 
-    _pixelCount = image.getPixelCount();
+    _pixelCount = img.getPixelCount();
 
-    _redChannel = image.RedChannel();
-    _gr1Channel = image.Gr1Channel();
-    _gr2Channel = image.Gr2Channel();
-    _bluChannel = image.BluChannel();
+    _redChannel = img.RedChannel();
+    _gr1Channel = img.Gr1Channel();
+    _gr2Channel = img.Gr2Channel();
+    _bluChannel = img.BluChannel();
 
-    _imgData = image.getData();
+    _imgData = img.getData();
 }
 void DebayerAlgo::NearestNeighbour()
 {

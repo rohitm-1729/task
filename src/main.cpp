@@ -14,42 +14,41 @@ int main()
 {
     std::cout << "Taking input from: " << RAWIMG << std::endl;
 
-    Image image(WIDTH, HEIGHT);
+    Image img(WIDTH, HEIGHT);
 
-    image.setRedChannel();
-    image.setGr1Channel();
-    image.setGr2Channel();
-    image.setBluChannel();
-    image.setImgData();
+    img.setRedChannel();
+    img.setGr1Channel();
+    img.setGr2Channel();
+    img.setBluChannel();
+    img.setImgData();
 
-    RAW12Loader loader(image, RAWIMG);
-
-    std::cout << "Seperating Channels:...." << std::endl;
+    RAW12Loader loader(img, RAWIMG);
 
     // swapping isn't required for this data
     // loader.SwapEndianness();
 
     loader.LoadSensels();
 
-    loader.SeperateChannels();
+    std::cout << "Seperating Channels:...." << std::endl;
 
+    loader.SeperateChannels();
     loader.ConvertTo8Bit();
 
     std::cout << "Extracting a " << TILE_SIZE << "x" << TILE_SIZE << " square tile: " << std::endl;
 
     loader.IntensityValues(TILE_SIZE);
 
-    std::cout << "Creating colored image by debayering..." << std::endl;
+    std::cout << "Creating colored img by debayering..." << std::endl;
 
-    DebayerAlgo container(image);
-
+    DebayerAlgo container(img);
     container.NearestNeighbour();
 
-    PPMImageWriter writer(image);
-
     std::cout << "Writing PGM/PPM images in : " << PGMIMG << std::endl;
-
+    
+    PPMImageWriter writer(img);
     writer.ImageWriter(PGMIMG);
+
+    std::cout << "Check Images in " << PGMIMG << std::endl;
 
     return 0;
 }

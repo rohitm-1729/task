@@ -23,7 +23,7 @@ class PPMImageWriter
 
   public:
     PPMImageWriter();
-    PPMImageWriter(Image &image);
+    PPMImageWriter(Image &img);
 
     //Writing the data in pgm format for channels and ppm for debayered image
     void ImageWriter(const std::string &location);

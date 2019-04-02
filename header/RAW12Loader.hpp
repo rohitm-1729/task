@@ -28,7 +28,7 @@ private:
 public:
     // construct the image object with all the required attributes
 
-    RAW12Loader(Image &image, const std::string &_inputLocation);
+    RAW12Loader(Image &img, const std::string &_inputLocation);
     ~RAW12Loader();
 
     void LoadSensels();
