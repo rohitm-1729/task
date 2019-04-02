@@ -39,15 +39,6 @@ public:
         _byteCount  = _width * _height * 3 / 2;
     }
 
-    ~Image()
-    {
-        delete[](uint16_t*) _imgData;
-        delete[](uint16_t*) _red;
-        delete[](uint16_t*) _gr1;
-        delete[](uint16_t*) _gr2;
-        delete[](uint16_t*) _blu;
-    }
-
     void setRedChannel()
     {
         if(_red == nullptr)
@@ -118,6 +109,15 @@ public:
     uint16_t* BluChannel()
     {
         return _blu;
+    }
+
+    ~Image()
+    {
+        delete[](uint16_t*) _imgData;
+        delete[](uint16_t*) _red;
+        delete[](uint16_t*) _gr1;
+        delete[](uint16_t*) _gr2;
+        delete[](uint16_t*) _blu;
     }
 };
 
