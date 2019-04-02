@@ -22,11 +22,6 @@ DebayerAlgo::DebayerAlgo(Image &img)
     _imgData = img.GetData();
 }
 
-DebayerAlgo::~DebayerAlgo()
-{
-
-}
-
 void DebayerAlgo::NearestNeighbour()
 {    
     unsigned int indexrg = 0, indexgb = 0, clrindex = 0;
@@ -59,4 +54,9 @@ void DebayerAlgo::NearestNeighbour()
             indexgb++;
         }
     }
+}
+
+DebayerAlgo::~DebayerAlgo()
+{
+
 }

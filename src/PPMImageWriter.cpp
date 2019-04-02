@@ -21,22 +21,6 @@ PPMImageWriter::PPMImageWriter(Image &img)
     _imgData = img.GetData();
 }
 
-PPMImageWriter::~PPMImageWriter()
-{
-
-}
-
-void PPMImageWriter::WriteImage(const std::string &location)
-{
-    bool grayscale = true;
-
-    WriteChannel(grayscale, _redChannel, location + PGM_FILENAME_RED);
-    WriteChannel(grayscale, _gr1Channel, location + PGM_FILENAME_GR1);
-    WriteChannel(grayscale, _gr2Channel, location + PGM_FILENAME_GR2);
-    WriteChannel(grayscale, _bluChannel, location + PGM_FILENAME_BLU);
-    WriteChannel(!grayscale, _imgData, location + PPM_FILENAME_COLOR);
-}
-
 void PPMImageWriter::WriteChannel(bool grayscale, uint16_t *data, const std::string &fileName)
 {
     std::ofstream pgmfile;
@@ -64,4 +48,20 @@ void PPMImageWriter::WriteChannel(bool grayscale, uint16_t *data, const std::str
     }
 
     pgmfile.close();
+}
+
+void PPMImageWriter::WriteImage(const std::string &location)
+{
+    bool grayscale = true;
+
+    WriteChannel(grayscale, _redChannel, location + PGM_FILENAME_RED);
+    WriteChannel(grayscale, _gr1Channel, location + PGM_FILENAME_GR1);
+    WriteChannel(grayscale, _gr2Channel, location + PGM_FILENAME_GR2);
+    WriteChannel(grayscale, _bluChannel, location + PGM_FILENAME_BLU);
+    WriteChannel(!grayscale, _imgData, location + PPM_FILENAME_COLOR);
+}
+
+PPMImageWriter::~PPMImageWriter()
+{
+
 }
