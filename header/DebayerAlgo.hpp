@@ -6,9 +6,9 @@
 class DebayerAlgo
 {
 private:
-    
-    //variables for object construction
-    unsigned int _width,_pixelCount;
+    // variables for object construction
+    unsigned int _width, _pixelCount;
+
     uint16_t *_redChannel;
     uint16_t *_gr1Channel;
     uint16_t *_gr2Channel;
@@ -16,12 +16,10 @@ private:
     uint16_t *_imgData;
 
 public:
-    
     DebayerAlgo();
-    DebayerAlgo(Image& image);
+    DebayerAlgo(Image &image);
 
     void NearestNeighbour();
-
 };
 
 #endif
