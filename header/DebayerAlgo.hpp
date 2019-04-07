@@ -1,3 +1,9 @@
+/* Copyright (C) 2019 Rohit Mundada
+ * You may use, distribute and modify this code under the
+ * terms of the MIT license.
+ *
+ * 
+ */
 #ifndef DEBAYER_ALGO_H
 #define DEBAYER_ALGO_H
 

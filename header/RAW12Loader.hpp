@@ -1,3 +1,10 @@
+/* Copyright (C) 2019 Rohit Mundada
+ * You may use, distribute and modify this code under the
+ * terms of the MIT license.
+ *
+ * 
+ */
+
 #ifndef IMAGE_PROCESSOR_H
 #define IMAGE_PROCESSOR_H
 

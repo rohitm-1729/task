@@ -1,3 +1,9 @@
+/* Copyright (C) 2019 Rohit Mundada
+ * You may use, distribute and modify this code under the
+ * terms of the MIT license.
+ *
+ * 
+ */
 #include "RAW12Loader.hpp"
 
 RAW12Loader::RAW12Loader(Image& img, const std::string& RAWIMG) : _RAWIMG(RAWIMG)
